@@ -60,7 +60,7 @@
     <changeSet id="homework-2-book-genre" author="Alexey Ginel">
         <sqlFile encoding="utf8" path="./sql/book_genre.sql" relativeToChangelogFile="true"/>
     </changeSet>
-	_________________________________________________________________________________________
+	
 	<changeSet id="homework-2-book-author-index" author="Alexey Ginel">
         <sqlFile encoding="utf8" path="./sql/book_author_index.sql" relativeToChangelogFile="true"/>
     </changeSet>
