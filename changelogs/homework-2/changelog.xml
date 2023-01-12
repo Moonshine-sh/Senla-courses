@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>   
+<databaseChangeLog
+   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
+      http://www.liquibase.org/xml/ns/pro 
+      http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd"
+      logicalFilePath="homework-2">  
+    
+    <changeSet id="homework-2-role" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/role.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+
+    <changeSet id="homework-2-person" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/person.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+    <changeSet id="homework-2-person-cred" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/person_cred.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+    <changeSet id="homework-2-person-role" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/person_role.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+    <changeSet id="homework-2-verification-token" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/verification_token.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+    <changeSet id="homework-2-status" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/status.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+    <changeSet id="homework-2-order" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/order.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+    <changeSet id="homework-2-book" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/book.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+    <changeSet id="homework-2-book-item" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/book_item.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+    <changeSet id="homework-2-author" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/author.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+    <changeSet id="homework-2-book-author" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/book_author.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+    <changeSet id="homework-2-genre" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/genre.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+    <changeSet id="homework-2-book-genre" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/book_genre.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+	<changeSet id="homework-2-book-author-index" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/book_author_index.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+	<changeSet id="homework-2-book-genre-index" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/book_genre_index.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+	<changeSet id="homework-2-book-item-index" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/book_item_index.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+	<changeSet id="homework-2-order-index" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/order_index.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+	<changeSet id="homework-2-person-cred-index" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/person_cred_index.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+	<changeSet id="homework-2-person-role-index" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/person_role_index.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+	<changeSet id="homework-2-verification-token-index" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/verification_token_index.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+</databaseChangeLog> 
