@@ -60,4 +60,33 @@
     <changeSet id="homework-2-book-genre" author="Alexey Ginel">
         <sqlFile encoding="utf8" path="./sql/book_genre.sql" relativeToChangelogFile="true"/>
     </changeSet>
+	_________________________________________________________________________________________
+	<changeSet id="homework-2-book-author-index" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/book_author_index.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+	<changeSet id="homework-2-book-genre-index" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/book_genre_index.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+	<changeSet id="homework-2-book-item-index" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/book_item_index.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+	<changeSet id="homework-2-order-index" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/order_index.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+	<changeSet id="homework-2-person-cred-index" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/person_cred_index.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+	<changeSet id="homework-2-person-role-index" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/person_role_index.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
+	<changeSet id="homework-2-verification-token-index" author="Alexey Ginel">
+        <sqlFile encoding="utf8" path="./sql/verification_token_index.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+	
 </databaseChangeLog> 
