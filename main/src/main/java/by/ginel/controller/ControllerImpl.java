@@ -1,11 +1,11 @@
 package by.ginel.controller;
 
-import by.ginel.Autowired;
-import by.ginel.Component;
+import by.ginel.annotation.Autowired;
+import by.ginel.annotation.Component;
 import by.ginel.service.ServiceInterface;
 
 @Component
-public class ControllerImpl implements ControllerInterface {
+public class ControllerImpl {
     private final ServiceInterface service;
 
     @Autowired

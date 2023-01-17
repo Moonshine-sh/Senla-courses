@@ -1,11 +1,14 @@
 package by.ginel;
 
-import javax.annotation.PostConstruct;
+import by.ginel.annotation.Autowired;
+import by.ginel.ApplicationContext;
+import by.ginel.configurator.ObjectConfigurator;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
+
 
 public class ObjectFactory {
     private final ApplicationContext context;
@@ -16,13 +19,8 @@ public class ObjectFactory {
         for (Class<? extends ObjectConfigurator> aClass : context.getConfig().getScanner().getSubTypesOf(ObjectConfigurator.class)) {
             try {
                 configurators.add(aClass.getDeclaredConstructor().newInstance());
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                    NoSuchMethodException e) {
                 e.printStackTrace();
             }
         }
@@ -48,41 +46,33 @@ public class ObjectFactory {
         }
         configure(t);
 
-        try {
-            invokeInit(implClass, t);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
         return t;
     }
 
-    private <T> void invokeInit(Class<T> implClass, T t) throws IllegalAccessException, InvocationTargetException {
-        for (Method method : implClass.getMethods()) {
-            if (method.isAnnotationPresent(Autowired.class)) {
-                List<Object> args = Arrays.stream(method.getParameterTypes()).map(context::getObject).collect(Collectors.toList());
-                method.invoke(t,args.toArray());
-            }
-        }
-    }
-
     private <T> void configure(T t) {
-        configurators.forEach(objectConfigurator -> objectConfigurator.configure(t,context));
+        configurators.forEach(objectConfigurator -> {
+            try {
+                objectConfigurator.configure(t,context);
+            } catch (InvocationTargetException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private <T> T create(Class<T> implClass) throws InstantiationException, IllegalAccessException, java.lang.reflect.InvocationTargetException, NoSuchMethodException {
-        //НАПИСАТЬ НОРМАЛЬНО
+        Constructor<?> constructor = getConstructor(implClass);
+        List<Object> args = Arrays.stream(constructor.getParameterTypes()).map(context::getObject).collect(Collectors.toList());
+        return (T) constructor.newInstance(args.toArray());
+    }
+
+    private Constructor<?> getConstructor(Class<?> implClass) throws NoSuchMethodException {
         Set<Constructor<?>> constructors = Arrays.stream(implClass.getDeclaredConstructors()).filter(constructor -> constructor.isAnnotationPresent(Autowired.class)).collect(Collectors.toSet());
         if(constructors.size()>1){
             throw new RuntimeException("There are more than 1 constractor annotated with Autowired");
         }
         else if(constructors.size()==1){
-            Constructor<?> constructor = constructors.iterator().next();
-            List<Object> args = Arrays.stream(constructor.getParameterTypes()).map(context::getObject).collect(Collectors.toList());
-            return (T) constructor.newInstance(args.toArray());
+            return constructors.iterator().next();
         }
-        return implClass.getDeclaredConstructor().newInstance();
+        return implClass.getDeclaredConstructor();
     }
 }

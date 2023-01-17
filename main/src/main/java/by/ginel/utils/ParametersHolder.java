@@ -1,7 +1,7 @@
 package by.ginel.utils;
 
-import by.ginel.Component;
-import by.ginel.Value;
+import by.ginel.annotation.Component;
+import by.ginel.annotation.Value;
 
 @Component
 public class ParametersHolder {

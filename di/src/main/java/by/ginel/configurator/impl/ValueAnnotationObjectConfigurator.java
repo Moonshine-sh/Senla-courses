@@ -1,4 +1,8 @@
-package by.ginel;
+package by.ginel.configurator.impl;
+
+import by.ginel.ApplicationContext;
+import by.ginel.annotation.Value;
+import by.ginel.configurator.ObjectConfigurator;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -10,7 +14,7 @@ import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toMap;
 
-public class ValueAnnotationObjectConfigurator implements ObjectConfigurator{
+public class ValueAnnotationObjectConfigurator implements ObjectConfigurator {
     private final Map<String, String> propertiesMap;
 
     public ValueAnnotationObjectConfigurator() {
@@ -27,7 +31,7 @@ public class ValueAnnotationObjectConfigurator implements ObjectConfigurator{
     }
 
     @Override
-    public void configure(Object t,ApplicationContext context) {
+    public void configure(Object t, ApplicationContext context) {
         Class<?> implClass = t.getClass();
         for (Field field : implClass.getDeclaredFields()) {
             Value annotation = field.getAnnotation(Value.class);
