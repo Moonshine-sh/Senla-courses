@@ -25,8 +25,4 @@ public class ObjectConfig implements Config {
     public Set<Class<?>> getAllComponents() {
         return scanner.getTypesAnnotatedWith(Component.class);
     }
-
-    public Reflections getScanner() {
-        return scanner;
-    }
 }

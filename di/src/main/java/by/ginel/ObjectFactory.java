@@ -12,21 +12,25 @@ import java.util.stream.Collectors;
 
 public class ObjectFactory {
     private final ApplicationContext context;
-    private final List<ObjectConfigurator> configurators = new ArrayList<>();
+    private final List<ObjectConfigurator> configurators;
 
-    public ObjectFactory(ApplicationContext context) {
+    public ObjectFactory(ApplicationContext context, List<ObjectConfigurator> configurators) {
         this.context= context;
-        for (Class<? extends ObjectConfigurator> aClass : context.getConfig().getScanner().getSubTypesOf(ObjectConfigurator.class)) {
-            try {
-                configurators.add(aClass.getDeclaredConstructor().newInstance());
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
-                    NoSuchMethodException e) {
-                e.printStackTrace();
-            }
-        }
+        this.configurators = configurators;
+    }
+
+    public void createObjects(Set<Class<?>> components){
+        components.forEach(this::createObject);
+        Set<?> objects = components.stream().map(context::getObject).collect(Collectors.toSet());
+        objects.forEach(this::configure);
     }
 
     public <T> T createObject(Class<T> implClass) {
+        T impl = context.getObject(implClass);
+
+        if(Objects.nonNull(impl)){
+            return impl;
+        }
 
         T t = null;
         try {
@@ -44,8 +48,8 @@ public class ObjectFactory {
             System.out.println("NoSuchMethodException");
             e.printStackTrace();
         }
-        configure(t);
 
+        context.putObject(implClass,t);
         return t;
     }
 
@@ -61,7 +65,13 @@ public class ObjectFactory {
 
     private <T> T create(Class<T> implClass) throws InstantiationException, IllegalAccessException, java.lang.reflect.InvocationTargetException, NoSuchMethodException {
         Constructor<?> constructor = getConstructor(implClass);
-        List<Object> args = Arrays.stream(constructor.getParameterTypes()).map(context::getObject).collect(Collectors.toList());
+        List<Object> args = Arrays.stream(constructor.getParameterTypes()).map(arg -> {
+            Class<?> a = arg;
+            if(arg.isInterface()){
+                a = context.getImplClass(arg);
+            }
+            return createObject(a);
+        }).collect(Collectors.toList());
         return (T) constructor.newInstance(args.toArray());
     }
 
