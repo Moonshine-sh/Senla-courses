@@ -3,15 +3,15 @@ package by.ginel.dao.impl;
 import by.ginel.dao.Dao;
 import by.ginel.dao.datasource.MockDataSource;
 import by.ginel.entity.AbstractEntity;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public abstract class DaoImpl<T extends AbstractEntity> implements Dao<T> {
-    @Autowired
-    private MockDataSource mockDataSource;
+    private final MockDataSource mockDataSource;
 
     protected abstract Class<T> getEntityClass();
 

@@ -1,19 +1,20 @@
 package by.ginel;
 
-import by.ginel.config.AppConfig;
 import by.ginel.controller.*;
 import by.ginel.dto.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
+@ComponentScan(basePackages = "by.ginel")
 public class Application {
     public static void main(String[] args) throws JsonProcessingException {
-        ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(Application.class);
 
         authorTest(context.getBean(AuthorController.class));
 
