@@ -13,6 +13,7 @@ import java.util.List;
 public abstract class DaoImpl<T extends AbstractEntity> implements Dao<T> {
     private final MockDataSource mockDataSource;
 
+
     protected abstract Class<T> getEntityClass();
 
     public List<T> getAll() {
