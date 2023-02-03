@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import java.util.List;
+
 @Getter
 @Setter
 @SuperBuilder
@@ -16,4 +18,8 @@ public class Person extends AbstractEntity{
     private String mobNum;
     private Boolean locked;
     private Boolean enabled;
+
+    private PersonCredentials credentials;
+    private List<Role> roles;
+    //private List<Order> orders;
 }

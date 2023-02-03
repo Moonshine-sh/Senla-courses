@@ -12,5 +12,5 @@ import lombok.experimental.SuperBuilder;
 public class PersonCredentials extends AbstractEntity{
     private String login;
     private String password;
-//    private Person person;
+    private Long personId;
 }

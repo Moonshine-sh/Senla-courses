@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 @SuperBuilder
 public class OrderDto extends AbstractDto{
     private Timestamp date;
-//    private Long personId;
+    private Long personId;
     private BigDecimal price;
-//    private Long statusId;
+    private Long statusId;
 }

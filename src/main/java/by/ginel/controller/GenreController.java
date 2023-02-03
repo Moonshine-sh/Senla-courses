@@ -7,29 +7,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
+
 @Component
 @RequiredArgsConstructor
 public class GenreController {
     private final GenreService genreService;
     private final ObjectMapper objectMapper;
 
-    public String getAll() throws JsonProcessingException {
+    public String getAll() throws JsonProcessingException, SQLException, InterruptedException {
         return objectMapper.writeValueAsString(genreService.getAll());
     }
 
-    public String getById(Long id) throws JsonProcessingException {
+    public String getById(Long id) throws JsonProcessingException, SQLException, InterruptedException {
         return objectMapper.writeValueAsString(genreService.getById(id));
     }
 
-    public String save(GenreDto genreDto) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(genreService.save(genreDto));
+    public void save(GenreDto genreDto) throws JsonProcessingException, SQLException, InterruptedException {
+        genreService.save(genreDto);
     }
 
-    public String delete(Long id) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(genreService.delete(id));
+    public void delete(Long id) throws JsonProcessingException, SQLException, InterruptedException {
+        genreService.delete(id);
     }
 
-    public String update(GenreDto genreDto) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(genreService.update(genreDto));
+    public void update(GenreDto genreDto) throws JsonProcessingException, SQLException, InterruptedException {
+        genreService.update(genreDto);
     }
 }

@@ -7,6 +7,7 @@ import by.ginel.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -16,27 +17,28 @@ public class OrderServiceImpl implements OrderService {
     private final OrderDao orderDao;
 
     @Override
-    public List<OrderDto> getAll() {
+    public List<OrderDto> getAll() throws SQLException, InterruptedException {
         return orderDao.getAll().stream().map(orderMapper::mapToOderDto).toList();
     }
 
     @Override
-    public OrderDto getById(Long id) {
+    public OrderDto getById(Long id) throws SQLException, InterruptedException {
         return orderMapper.mapToOderDto(orderDao.getById(id));
     }
 
     @Override
-    public OrderDto save(OrderDto entityDto) {
-        return orderMapper.mapToOderDto(orderDao.save(orderMapper.mapToOrder(entityDto)));
+    public Long save(OrderDto entityDto) throws SQLException, InterruptedException {
+        orderDao.save(orderMapper.mapToOrder(entityDto));
+        return null;
     }
 
     @Override
-    public Long delete(Long id) {
-        return orderDao.delete(id);
+    public void delete(Long id) throws SQLException, InterruptedException {
+        orderDao.delete(id);
     }
 
     @Override
-    public OrderDto update(OrderDto entityDto) {
-        return orderMapper.mapToOderDto(orderDao.update(orderMapper.mapToOrder(entityDto)));
+    public void update(OrderDto entityDto) throws SQLException, InterruptedException {
+        orderDao.update(orderMapper.mapToOrder(entityDto));
     }
 }

@@ -7,6 +7,7 @@ import by.ginel.service.PersonCredentialsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -16,27 +17,28 @@ public class PersonCredentialsServiceImpl implements PersonCredentialsService {
     private final PersonCredentialsDao personCredentialsDao;
 
     @Override
-    public List<PersonCredentialsDto> getAll() {
+    public List<PersonCredentialsDto> getAll() throws SQLException, InterruptedException {
         return personCredentialsDao.getAll().stream().map(personCredentialsMapper::mapToPersonCredentialsDto).toList();
     }
 
     @Override
-    public PersonCredentialsDto getById(Long id) {
+    public PersonCredentialsDto getById(Long id) throws SQLException, InterruptedException {
         return personCredentialsMapper.mapToPersonCredentialsDto(personCredentialsDao.getById(id));
     }
 
     @Override
-    public PersonCredentialsDto save(PersonCredentialsDto entityDto) {
-        return personCredentialsMapper.mapToPersonCredentialsDto(personCredentialsDao.save(personCredentialsMapper.mapToPersonCredentials(entityDto)));
+    public Long save(PersonCredentialsDto entityDto) throws SQLException, InterruptedException {
+        personCredentialsDao.save(personCredentialsMapper.mapToPersonCredentials(entityDto));
+        return null;
     }
 
     @Override
-    public Long delete(Long id) {
-        return personCredentialsDao.delete(id);
+    public void delete(Long id) throws SQLException, InterruptedException {
+        personCredentialsDao.delete(id);
     }
 
     @Override
-    public PersonCredentialsDto update(PersonCredentialsDto entityDto) {
-        return personCredentialsMapper.mapToPersonCredentialsDto(personCredentialsDao.update(personCredentialsMapper.mapToPersonCredentials(entityDto)));
+    public void update(PersonCredentialsDto entityDto) throws SQLException, InterruptedException {
+        personCredentialsDao.update(personCredentialsMapper.mapToPersonCredentials(entityDto));
     }
 }

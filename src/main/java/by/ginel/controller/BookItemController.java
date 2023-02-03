@@ -7,29 +7,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
+
 @Component
 @RequiredArgsConstructor
 public class BookItemController {
     private final BookItemService bookItemService;
     private final ObjectMapper objectMapper;
 
-    public String getAll() throws JsonProcessingException {
+    public String getAll() throws JsonProcessingException, SQLException, InterruptedException {
         return objectMapper.writeValueAsString(bookItemService.getAll());
     }
 
-    public String getById(Long id) throws JsonProcessingException {
+    public String getById(Long id) throws JsonProcessingException, SQLException, InterruptedException {
         return objectMapper.writeValueAsString(bookItemService.getById(id));
     }
 
-    public String save(BookItemDto bookItemDto) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(bookItemService.save(bookItemDto));
+    public void save(BookItemDto bookItemDto) throws JsonProcessingException, SQLException, InterruptedException {
+        bookItemService.save(bookItemDto);
     }
 
-    public String delete(Long id) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(bookItemService.delete(id));
+    public void delete(Long id) throws JsonProcessingException, SQLException, InterruptedException {
+        bookItemService.delete(id);
     }
 
-    public String update(BookItemDto bookItemDto) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(bookItemService.update(bookItemDto));
+    public void update(BookItemDto bookItemDto) throws JsonProcessingException, SQLException, InterruptedException {
+        bookItemService.update(bookItemDto);
     }
 }
