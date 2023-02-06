@@ -11,12 +11,13 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class GenreDaoImpl implements GenreDao {
-    private final ConnectionHandler connectionHandler;
     private static final String SELECT_ALL = "SELECT * FROM genre";
     private static final String SELECT_BY_ID = "SELECT * FROM genre WHERE id = ?";
     private static final String INSERT = "INSERT INTO genre (name) VALUES (?)";
     private static final String DELETE = "DELETE FROM genre WHERE id = ?";
     private static final String UPDATE = "UPDATE genre SET name = ? WHERE id = ?";
+
+    private final ConnectionHandler connectionHandler;
 
     @Override
     public List<Genre> getAll() {

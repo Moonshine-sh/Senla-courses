@@ -12,14 +12,13 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class BookDaoImpl implements BookDao {
-    private final ConnectionHandler connectionHandler;
-
-
     private static final String SELECT_ALL = "SELECT * FROM book";
     private static final String SELECT_BY_ID = "SELECT * FROM book WHERE id = ?";
     private static final String INSERT = "INSERT INTO book (name, description, pic_path) VALUES (?, ?, ?)";
     private static final String DELETE = "DELETE FROM book WHERE id = ?";
     private static final String UPDATE = "UPDATE book SET name = ?, description = ?, pic_path = ? WHERE id = ?";
+
+    private final ConnectionHandler connectionHandler;
 
     @Override
     public List<Book> getAll() throws SQLException {

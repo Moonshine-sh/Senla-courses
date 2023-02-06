@@ -12,13 +12,13 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class AuthorDaoImpl implements AuthorDao {
-    private final ConnectionHandler connectionHandler;
-
     private static final String SELECT_ALL = "SELECT * FROM author";
     private static final String SELECT_BY_ID = "SELECT * FROM author WHERE id = ?";
     private static final String INSERT = "INSERT INTO author (name) VALUES (?)";
     private static final String DELETE = "DELETE FROM author WHERE id = ?";
     private static final String UPDATE = "UPDATE author SET name = ? WHERE id = ?";
+
+    private final ConnectionHandler connectionHandler;
 
     @Override
     public List<Author> getAll() throws SQLException {

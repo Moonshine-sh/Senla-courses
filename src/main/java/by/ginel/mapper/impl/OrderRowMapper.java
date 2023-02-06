@@ -10,9 +10,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Component
-public class OrderRowMapper implements RowMapper<Order> {
+public class OrderRowMapper extends RowMapper<Order> {
     @Override
-    public Order mapToEntity(ResultSet resultSet) throws SQLException {
+    public Order mapRow(ResultSet resultSet) throws SQLException {
         Person person = Person.builder()
                 .id(resultSet.getLong("p.id"))
                 .firstName(resultSet.getString("first_name"))

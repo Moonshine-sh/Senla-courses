@@ -8,9 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Component
-public class PersonRowMapper implements RowMapper<Person> {
+public class PersonRowMapper extends RowMapper<Person> {
     @Override
-    public Person mapToEntity(ResultSet resultSet) throws SQLException {
+    public Person mapRow(ResultSet resultSet) throws SQLException {
         return Person.builder()
                 .id(resultSet.getLong("id"))
                 .firstName(resultSet.getString("first_name"))

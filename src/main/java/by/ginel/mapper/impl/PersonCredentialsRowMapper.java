@@ -8,9 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Component
-public class PersonCredentialsRowMapper implements RowMapper<PersonCredentials> {
+public class PersonCredentialsRowMapper extends RowMapper<PersonCredentials> {
     @Override
-    public PersonCredentials mapToEntity(ResultSet resultSet) throws SQLException {
+    public PersonCredentials mapRow(ResultSet resultSet) throws SQLException {
         return PersonCredentials.builder()
                 .id(resultSet.getLong("pcid"))
                 .login(resultSet.getString("login"))

@@ -14,57 +14,54 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class OrderDaoImpl implements OrderDao {
-    private final ConnectionHandler connectionHandler;
-    private final RowMapper<Order> rowMapper;
-
-    private static final String SELECT_ALL = "SELECT * FROM \"order\" o join status s on s.id = o.status_id join person p on p.id = o.person_id";
-    private static final String SELECT_BY_ID = "SELECT * FROM \"order\" o join status s on s.id = o.status_id join person p on p.id = o.person_id WHERE o.id = ?";
+    private static final String SELECT_ALL = "SELECT * FROM \"order\" o inner join status s on s.id = o.status_id inner join person p on p.id = o.person_id";
+    private static final String SELECT_BY_ID = "SELECT * FROM \"order\" o inner join status s on s.id = o.status_id inner join person p on p.id = o.person_id WHERE o.id = ?";
     private static final String INSERT = "INSERT INTO \"order\" (date, status_id, person_id, price) VALUES (?, ?, ?, ?)";
     private static final String DELETE = "DELETE FROM \"order\" WHERE id = ?";
     private static final String UPDATE = "UPDATE \"order\" SET date = ?, status_id = ?, person_id = ?, price = ? WHERE id = ?";
 
+    private final ConnectionHandler connectionHandler;
+    private final RowMapper<Order> rowMapper;
+
     @Override
     public List<Order> getAll() throws SQLException, InterruptedException {
-        Statement selectStatement = getConnection().createStatement();
-
-        ResultSet resultSet = selectStatement.executeQuery(SELECT_ALL);
-        List<Order> orders = new ArrayList<>();
-        while (resultSet.next()){
-            orders.add(rowMapper.mapToEntity(resultSet));
+        try(PreparedStatement selectStatement = getConnection().prepareStatement(SELECT_ALL)){
+            return rowMapper.mapToEntityList(selectStatement.executeQuery());
         }
-        return orders;
     }
 
     @Override
     public Order getById(Long id) throws SQLException, InterruptedException {
-        PreparedStatement getByIdStatement = getConnection().prepareStatement(SELECT_BY_ID);
-        getByIdStatement.setLong(1, id);
-
-        ResultSet resultSet = getByIdStatement.executeQuery();
-        resultSet.next();
-        return rowMapper.mapToEntity(resultSet);
+        try(PreparedStatement getByIdStatement = getConnection().prepareStatement(SELECT_BY_ID)){
+            getByIdStatement.setLong(1, id);
+            return rowMapper.mapToEntity(getByIdStatement.executeQuery());
+        }
     }
 
     @Override
     public Long save(Order entity) throws SQLException, InterruptedException {
-        PreparedStatement insertStatement = getConnection().prepareStatement(INSERT);
-        fillStatement(entity, insertStatement);
-        insertStatement.executeUpdate();
-        return null;
+        try(PreparedStatement insertStatement = getConnection().prepareStatement(INSERT)){
+            fillStatement(entity, insertStatement);
+            insertStatement.executeUpdate();
+            return null;
+        }
     }
 
     @Override
     public void delete(Long id) throws SQLException, InterruptedException {
-        PreparedStatement deleteStatement = getConnection().prepareStatement(DELETE);
-        deleteStatement.setLong(1, id);
+        try(PreparedStatement deleteStatement = getConnection().prepareStatement(DELETE)){
+            deleteStatement.setLong(1, id);
+            deleteStatement.executeUpdate();
+        }
     }
 
     @Override
     public void update(Order entity) throws SQLException, InterruptedException {
-        PreparedStatement updateStatement = getConnection().prepareStatement(UPDATE);
-        fillStatement(entity, updateStatement);
-        updateStatement.setLong(5, entity.getId());
-        updateStatement.executeUpdate();
+        try(PreparedStatement updateStatement = getConnection().prepareStatement(UPDATE)){
+            fillStatement(entity, updateStatement);
+            updateStatement.setLong(5, entity.getId());
+            updateStatement.executeUpdate();
+        }
     }
 
     private void fillStatement(Order entity, PreparedStatement insertStatement) throws SQLException {

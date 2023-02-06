@@ -13,36 +13,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan(basePackages = "by.ginel")
-@PropertySource("application.properties")
 public class AppConfig {
-    @Value("${dbdriver}")
-    private String driver;
-    @Value("${dburl}")
-    private String url;
-    @Value("${dbusername}")
-    private String username;
-    @Value("${dbpassword}")
-    private String password;
-
-    @Bean
-    public SpringLiquibase liquibase() {
-        SpringLiquibase liquibase = new SpringLiquibase();
-        liquibase.setChangeLog("changelog-master.xml");
-        liquibase.setDataSource(dataSource());
-        return liquibase;
-    }
-
-    @Bean
-    public DataSource dataSource()  {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-
-        dataSource.setDriverClassName(driver);
-        dataSource.setUrl(url);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
-
-        return dataSource;
-    }
 
     @Bean
     public ObjectMapper objectMapper() {

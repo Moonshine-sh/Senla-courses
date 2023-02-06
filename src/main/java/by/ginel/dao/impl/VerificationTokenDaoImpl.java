@@ -11,12 +11,13 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class VerificationTokenDaoImpl implements VerificationTokenDao {
-    private final ConnectionHandler connectionHandler;
     private static final String SELECT_ALL = "SELECT * FROM verification_token";
     private static final String SELECT_BY_ID = "SELECT * FROM verification_token WHERE id = ?";
     private static final String INSERT = "INSERT INTO verification_token (token, person_id, expiry_date) VALUES (?)";
     private static final String DELETE = "DELETE FROM verification_token WHERE id = ?";
     private static final String UPDATE = "UPDATE verification_token SET token = ?, person_id = ?, expiry_date = ? WHERE id = ?";
+
+    private final ConnectionHandler connectionHandler;
 
     @Override
     public List<VerificationToken> getAll() {

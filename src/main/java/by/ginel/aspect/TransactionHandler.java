@@ -1,6 +1,7 @@
 package by.ginel.aspect;
 
 import by.ginel.config.ConnectionHandler;
+import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,9 +11,9 @@ import java.sql.SQLException;
 
 @Aspect
 @Component
+@RequiredArgsConstructor
 public class TransactionHandler {
-    @Autowired
-    private ConnectionHandler connectionHandler;
+    private final ConnectionHandler connectionHandler;
 
     @Before(value = "@annotation(Transaction)")
     public void beforeExecute() throws InterruptedException, SQLException {

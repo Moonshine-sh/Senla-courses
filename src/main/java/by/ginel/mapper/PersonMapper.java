@@ -8,6 +8,7 @@ import by.ginel.entity.AbstractEntity;
 import by.ginel.entity.Order;
 import by.ginel.entity.Person;
 import by.ginel.entity.Role;
+import lombok.RequiredArgsConstructor;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

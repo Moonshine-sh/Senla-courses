@@ -1,5 +1,6 @@
 package by.ginel.service.impl;
 
+import by.ginel.aspect.Transaction;
 import by.ginel.dao.PersonCredentialsDao;
 import by.ginel.dto.PersonCredentialsDto;
 import by.ginel.mapper.PersonCredentialsMapper;
@@ -26,17 +27,19 @@ public class PersonCredentialsServiceImpl implements PersonCredentialsService {
         return personCredentialsMapper.mapToPersonCredentialsDto(personCredentialsDao.getById(id));
     }
 
+    @Transaction
     @Override
     public Long save(PersonCredentialsDto entityDto) throws SQLException, InterruptedException {
         personCredentialsDao.save(personCredentialsMapper.mapToPersonCredentials(entityDto));
         return null;
     }
-
+    @Transaction
     @Override
     public void delete(Long id) throws SQLException, InterruptedException {
         personCredentialsDao.delete(id);
     }
 
+    @Transaction
     @Override
     public void update(PersonCredentialsDto entityDto) throws SQLException, InterruptedException {
         personCredentialsDao.update(personCredentialsMapper.mapToPersonCredentials(entityDto));

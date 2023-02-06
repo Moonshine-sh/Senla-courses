@@ -1,5 +1,6 @@
 package by.ginel.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,9 +13,9 @@ import java.util.Objects;
 import java.util.concurrent.LinkedBlockingDeque;
 
 @Component
+@RequiredArgsConstructor
 public class ConnectionHandler {
-    @Autowired
-    private DataSource dataSource;
+    private final DataSource dataSource;
     private LinkedBlockingDeque<Connection> connections;
     private final ThreadLocal<Connection> connectionThreadLocal = new ThreadLocal<>();
 

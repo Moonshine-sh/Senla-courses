@@ -11,12 +11,13 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class BookItemDaoImpl implements BookItemDao {
-    private final ConnectionHandler connectionHandler;
     private static final String SELECT_ALL = "SELECT * FROM book_item";
     private static final String SELECT_BY_ID = "SELECT * FROM book_item WHERE id = ?";
     private static final String INSERT = "INSERT INTO book_item (book_id, order_id, price) VALUES (?, ?, ?)";
     private static final String DELETE = "DELETE FROM book_item WHERE id = ?";
     private static final String UPDATE = "UPDATE book_item SET book_id = ?, book_id = ?, price = ? WHERE id = ?";
+
+    private final ConnectionHandler connectionHandler;
 
     @Override
     public List<BookItem> getAll() {

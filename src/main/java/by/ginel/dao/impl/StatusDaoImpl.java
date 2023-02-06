@@ -11,12 +11,13 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class StatusDaoImpl implements StatusDao {
-    private final ConnectionHandler connectionHandler;
     private static final String SELECT_ALL = "SELECT * FROM status";
     private static final String SELECT_BY_ID = "SELECT * FROM status WHERE id = ?";
     private static final String INSERT = "INSERT INTO status (name) VALUES (?)";
     private static final String DELETE = "DELETE FROM status WHERE id = ?";
     private static final String UPDATE = "UPDATE status SET name = ? WHERE id = ?";
+
+    private final ConnectionHandler connectionHandler;
 
     @Override
     public List<Status> getAll() {
