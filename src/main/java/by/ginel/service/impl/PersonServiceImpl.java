@@ -1,6 +1,5 @@
 package by.ginel.service.impl;
 
-import by.ginel.aspect.Transaction;
 import by.ginel.dao.PersonDao;
 import by.ginel.dto.PersonDto;
 import by.ginel.mapper.PersonMapper;
@@ -27,19 +26,16 @@ public class PersonServiceImpl implements PersonService {
         return personMapper.mapToPersonDto(personDao.getById(id));
     }
 
-    @Transaction
     @Override
     public Long save(PersonDto entityDto) throws SQLException, InterruptedException {
-        return personDao.save(personMapper.mapToPerson(entityDto));
+        return null;
     }
 
-    @Transaction
     @Override
     public void delete(Long id) throws SQLException, InterruptedException {
         personDao.delete(id);
     }
 
-    @Transaction
     @Override
     public void update(PersonDto entityDto) throws SQLException, InterruptedException {
         personDao.update(personMapper.mapToPerson(entityDto));
