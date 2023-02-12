@@ -7,29 +7,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
+
 @Component
 @RequiredArgsConstructor
 public class PersonCredentialsController {
     private final PersonCredentialsService personCredentialsService;
     private final ObjectMapper objectMapper;
 
-    public String getAll() throws JsonProcessingException {
+    public String getAll() throws JsonProcessingException, SQLException, InterruptedException {
         return objectMapper.writeValueAsString(personCredentialsService.getAll());
     }
 
-    public String getById(Long id) throws JsonProcessingException {
+    public String getById(Long id) throws JsonProcessingException, SQLException, InterruptedException {
         return objectMapper.writeValueAsString(personCredentialsService.getById(id));
     }
 
-    public String save(PersonCredentialsDto personCredentialsDto) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(personCredentialsService.save(personCredentialsDto));
+    public void save(PersonCredentialsDto personCredentialsDto) throws JsonProcessingException, SQLException, InterruptedException {
+        personCredentialsService.save(personCredentialsDto);
     }
 
-    public String delete(Long id) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(personCredentialsService.delete(id));
+    public void delete(Long id) throws JsonProcessingException, SQLException, InterruptedException {
+        personCredentialsService.delete(id);
     }
 
-    public String update(PersonCredentialsDto personCredentialsDto) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(personCredentialsService.update(personCredentialsDto));
+    public void update(PersonCredentialsDto personCredentialsDto) throws JsonProcessingException, SQLException, InterruptedException {
+        personCredentialsService.update(personCredentialsDto);
     }
 }

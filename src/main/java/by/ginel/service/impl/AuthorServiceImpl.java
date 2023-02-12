@@ -7,6 +7,7 @@ import by.ginel.service.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -16,27 +17,28 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorDao authorDao;
 
     @Override
-    public List<AuthorDto> getAll() {
+    public List<AuthorDto> getAll() throws SQLException, InterruptedException {
         return authorDao.getAll().stream().map(authorMapper::mapToAuthorDto).toList();
     }
 
     @Override
-    public AuthorDto getById(Long id) {
+    public AuthorDto getById(Long id) throws SQLException, InterruptedException {
         return authorMapper.mapToAuthorDto(authorDao.getById(id));
     }
 
     @Override
-    public AuthorDto save(AuthorDto entityDto) {
-        return authorMapper.mapToAuthorDto(authorDao.save(authorMapper.mapToAuthor(entityDto)));
+    public Long save(AuthorDto entityDto) throws SQLException, InterruptedException {
+        authorDao.save(authorMapper.mapToAuthor(entityDto));
+        return null;
     }
 
     @Override
-    public Long delete(Long id) {
-        return authorDao.delete(id);
+    public void delete(Long id) throws SQLException, InterruptedException {
+        authorDao.delete(id);
     }
 
     @Override
-    public AuthorDto update(AuthorDto entityDto) {
-        return authorMapper.mapToAuthorDto(authorDao.update(authorMapper.mapToAuthor(entityDto)));
+    public void update(AuthorDto entityDto) throws SQLException, InterruptedException {
+        authorDao.update(authorMapper.mapToAuthor(entityDto));
     }
 }

@@ -7,6 +7,7 @@ import by.ginel.service.StatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -16,27 +17,28 @@ public class StatusServiceImpl implements StatusService {
     private final StatusDao statusDao;
 
     @Override
-    public List<StatusDto> getAll() {
+    public List<StatusDto> getAll() throws SQLException, InterruptedException {
         return statusDao.getAll().stream().map(statusMapper::mapToStatusDto).toList();
     }
 
     @Override
-    public StatusDto getById(Long id) {
+    public StatusDto getById(Long id) throws SQLException, InterruptedException {
         return statusMapper.mapToStatusDto(statusDao.getById(id));
     }
 
     @Override
-    public StatusDto save(StatusDto entityDto) {
-        return statusMapper.mapToStatusDto(statusDao.save(statusMapper.mapToStatus(entityDto)));
+    public Long save(StatusDto entityDto) throws SQLException, InterruptedException {
+        statusDao.save(statusMapper.mapToStatus(entityDto));
+        return null;
     }
 
     @Override
-    public Long delete(Long id) {
-        return statusDao.delete(id);
+    public void delete(Long id) throws SQLException, InterruptedException {
+        statusDao.delete(id);
     }
 
     @Override
-    public StatusDto update(StatusDto entityDto) {
-        return statusMapper.mapToStatusDto(statusDao.update(statusMapper.mapToStatus(entityDto)));
+    public void update(StatusDto entityDto) throws SQLException, InterruptedException {
+        statusDao.update(statusMapper.mapToStatus(entityDto));
     }
 }

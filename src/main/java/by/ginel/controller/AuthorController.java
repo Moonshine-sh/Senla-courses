@@ -7,29 +7,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
+
 @Component
 @RequiredArgsConstructor
 public class AuthorController {
     private final AuthorService authorService;
     private final ObjectMapper objectMapper;
 
-    public String getAll() throws JsonProcessingException {
+    public String getAll() throws JsonProcessingException, SQLException, InterruptedException {
         return objectMapper.writeValueAsString(authorService.getAll());
     }
 
-    public String getById(Long id) throws JsonProcessingException {
+    public String getById(Long id) throws JsonProcessingException, SQLException, InterruptedException {
         return objectMapper.writeValueAsString(authorService.getById(id));
     }
 
-    public String save(AuthorDto authorDto) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(authorService.save(authorDto));
+    public void save(AuthorDto authorDto) throws JsonProcessingException, SQLException, InterruptedException {
+        authorService.save(authorDto);
     }
 
-    public String delete(Long id) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(authorService.delete(id));
+    public void delete(Long id) throws JsonProcessingException, SQLException, InterruptedException {
+        authorService.delete(id);
     }
 
-    public String update(AuthorDto authorDto) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(authorService.update(authorDto));
+    public void update(AuthorDto authorDto) throws JsonProcessingException, SQLException, InterruptedException {
+        authorService.update(authorDto);
     }
 }

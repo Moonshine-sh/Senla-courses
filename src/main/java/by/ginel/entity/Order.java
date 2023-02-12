@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 @EqualsAndHashCode(callSuper = true)
 public class Order extends AbstractEntity{
     private Timestamp date;
-//    private Person person;
+    private Person person;
     private BigDecimal price;
-//    private Status status;
+    private Status status;
 }

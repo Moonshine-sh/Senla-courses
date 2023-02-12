@@ -7,29 +7,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
+
 @Component
 @RequiredArgsConstructor
 public class VerificationTokenController {
     private final VerificationTokenService verificationTokenService;
     private final ObjectMapper objectMapper;
 
-    public String getAll() throws JsonProcessingException {
+    public String getAll() throws JsonProcessingException, SQLException, InterruptedException {
         return objectMapper.writeValueAsString(verificationTokenService.getAll());
     }
 
-    public String getById(Long id) throws JsonProcessingException {
+    public String getById(Long id) throws JsonProcessingException, SQLException, InterruptedException {
         return objectMapper.writeValueAsString(verificationTokenService.getById(id));
     }
 
-    public String save(VerificationTokenDto verificationTokenDto) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(verificationTokenService.save(verificationTokenDto));
+    public void save(VerificationTokenDto verificationTokenDto) throws JsonProcessingException, SQLException, InterruptedException {
+        verificationTokenService.save(verificationTokenDto);
     }
 
-    public String delete(Long id) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(verificationTokenService.delete(id));
+    public void delete(Long id) throws JsonProcessingException, SQLException, InterruptedException {
+        verificationTokenService.delete(id);
     }
 
-    public String update(VerificationTokenDto verificationTokenDto) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(verificationTokenService.update(verificationTokenDto));
+    public void update(VerificationTokenDto verificationTokenDto) throws JsonProcessingException, SQLException, InterruptedException {
+        verificationTokenService.update(verificationTokenDto);
     }
 }

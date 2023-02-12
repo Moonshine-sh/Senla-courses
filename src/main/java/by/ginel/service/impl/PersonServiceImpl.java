@@ -1,5 +1,6 @@
 package by.ginel.service.impl;
 
+import by.ginel.aspect.Transaction;
 import by.ginel.dao.PersonDao;
 import by.ginel.dto.PersonDto;
 import by.ginel.mapper.PersonMapper;
@@ -7,6 +8,7 @@ import by.ginel.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -16,27 +18,30 @@ public class PersonServiceImpl implements PersonService {
     private final PersonDao personDao;
 
     @Override
-    public List<PersonDto> getAll() {
+    public List<PersonDto> getAll() throws SQLException, InterruptedException {
         return personDao.getAll().stream().map(personMapper::mapToPersonDto).toList();
     }
 
     @Override
-    public PersonDto getById(Long id) {
+    public PersonDto getById(Long id) throws SQLException, InterruptedException {
         return personMapper.mapToPersonDto(personDao.getById(id));
     }
 
+    @Transaction
     @Override
-    public PersonDto save(PersonDto entityDto) {
-        return personMapper.mapToPersonDto(personDao.save(personMapper.mapToPerson(entityDto)));
+    public Long save(PersonDto entityDto) throws SQLException, InterruptedException {
+        return personDao.save(personMapper.mapToPerson(entityDto));
     }
 
+    @Transaction
     @Override
-    public Long delete(Long id) {
-        return personDao.delete(id);
+    public void delete(Long id) throws SQLException, InterruptedException {
+        personDao.delete(id);
     }
 
+    @Transaction
     @Override
-    public PersonDto update(PersonDto entityDto) {
-        return personMapper.mapToPersonDto(personDao.update(personMapper.mapToPerson(entityDto)));
+    public void update(PersonDto entityDto) throws SQLException, InterruptedException {
+        personDao.update(personMapper.mapToPerson(entityDto));
     }
 }

@@ -10,5 +10,5 @@ import lombok.experimental.SuperBuilder;
 public class PersonCredentialsDto extends AbstractDto{
     private String login;
     private String password;
-//    private Long personId;
+    private Long personId;
 }

@@ -7,29 +7,31 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLException;
+
 @Component
 @RequiredArgsConstructor
 public class BookController {
     private final BookService bookService;
     private final ObjectMapper objectMapper;
 
-    public String getAll() throws JsonProcessingException {
+    public String getAll() throws JsonProcessingException, SQLException, InterruptedException {
         return objectMapper.writeValueAsString(bookService.getAll());
     }
 
-    public String getById(Long id) throws JsonProcessingException {
+    public String getById(Long id) throws JsonProcessingException, SQLException, InterruptedException {
         return objectMapper.writeValueAsString(bookService.getById(id));
     }
 
-    public String save(BookDto bookDto) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(bookService.save(bookDto));
+    public void save(BookDto bookDto) throws JsonProcessingException, SQLException, InterruptedException {
+        bookService.save(bookDto);
     }
 
-    public String delete(Long id) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(bookService.delete(id));
+    public void delete(Long id) throws JsonProcessingException, SQLException, InterruptedException {
+        bookService.delete(id);
     }
 
-    public String update(BookDto bookDto) throws JsonProcessingException {
-        return objectMapper.writeValueAsString(bookService.update(bookDto));
+    public void update(BookDto bookDto) throws JsonProcessingException, SQLException, InterruptedException {
+        bookService.update(bookDto);
     }
 }
