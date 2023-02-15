@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -18,6 +19,6 @@ public class PersonDto extends AbstractDto{
     private Boolean enabled;
 
     private Long personCredentialsId;
-    private List<Long> roles;
+    private Set<Long> roles;
     //private List<Long> orderIds;
 }

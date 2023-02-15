@@ -15,8 +15,9 @@ import org.mapstruct.Mappings;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.SQLException;
+import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", imports = AbstractEntity.class)
+@Mapper(componentModel = "spring", imports = {AbstractEntity.class, Collectors.class})
 public abstract class PersonMapper {
     @Autowired
     protected PersonCredentialsDao personCredentialsDao;
@@ -28,12 +29,12 @@ public abstract class PersonMapper {
     //@Mapping(target = "credentials", expression = "java(personCredentialsDao.getById(personDto.getPersonCredentialsId()))"),
     //@Mapping(target = "orders", expression = "java(personDto.getOrderIds().stream().map(this::getOrder).toList())")
 
-    @Mapping(target = "roles", expression = "java(personDto.getRoles().stream().map(this::getRole).toList())")
+    @Mapping(target = "roles", expression = "java(personDto.getRoles().stream().map(this::getRole).collect(Collectors.toSet()))")
     public abstract Person mapToPerson(PersonDto personDto) throws SQLException;
 
     @Mappings({
             @Mapping(target = "personCredentialsId", expression = "java(person.getCredentials().getId())"),
-            @Mapping(target = "roles", expression = "java(person.getRoles().stream().map(AbstractEntity::getId).toList())")
+            @Mapping(target = "roles", expression = "java(person.getRoles().stream().map(AbstractEntity::getId).collect(Collectors.toSet()))")
            // @Mapping(target = "orderIds", expression = "java(person.getOrders().stream().map(AbstractEntity::getId).toList())")
     })
     public abstract PersonDto mapToPersonDto(Person person);

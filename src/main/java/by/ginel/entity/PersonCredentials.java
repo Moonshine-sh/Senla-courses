@@ -1,9 +1,6 @@
 package by.ginel.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -15,11 +12,13 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "person_cred")
+@NamedEntityGraph(name = "graph.PersonCredentials.person",
+        attributeNodes = @NamedAttributeNode("person"))
 public class PersonCredentials extends AbstractEntity{
     private String login;
     private String password;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person person;
 }

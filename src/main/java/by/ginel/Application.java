@@ -1,7 +1,10 @@
 package by.ginel;
 
 import by.ginel.dao.GenreDao;
+import by.ginel.dao.PersonCredentialsDao;
+import by.ginel.dao.StatusDao;
 import by.ginel.entity.Genre;
+import by.ginel.entity.Status;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,16 +15,15 @@ import java.sql.SQLException;
 @Configuration
 @ComponentScan(basePackages = "by.ginel")
 public class Application {
-    public static void main(String[] args) throws SQLException, InterruptedException {
+    public static void main(String[] args) {
         ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(Application.class);
-        GenreDao genreDao = context.getBean(GenreDao.class);
+        PersonCredentialsDao personCredentialsDao = context.getBean(PersonCredentialsDao.class);
 
-        Genre genre = Genre.builder()
-                .name("ISEKAI")
-                .build();
+        System.out.println(personCredentialsDao.getEntityWithFetchCriteria(28L).getPerson().getId());
 
-        System.out.println("getAll() size - " + genreDao.getAll().size());
-        System.out.println("save() assigned id - " + genreDao.save(genre).getId());
-        System.out.println("getAll() size - " + genreDao.getAll().size());
+        System.out.println(personCredentialsDao.getEntityWithFetchJPQL(28L).getPerson().getFirstName());
+
+        System.out.println(personCredentialsDao.getEntityWithNamedGraph(28L).getPerson().getLastName());
+
     }
 }
