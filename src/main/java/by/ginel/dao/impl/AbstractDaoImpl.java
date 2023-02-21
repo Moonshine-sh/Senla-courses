@@ -2,20 +2,20 @@ package by.ginel.dao.impl;
 
 import by.ginel.dao.Dao;
 import by.ginel.entity.AbstractEntity;
+import by.ginel.entity.AbstractEntity_;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
 
-@Transactional
 public abstract class AbstractDaoImpl<T extends AbstractEntity> implements Dao<T> {
     @PersistenceContext
-    EntityManager entityManager;
+    protected EntityManager entityManager;
 
 
     protected abstract Class<T> getEntityClass();
@@ -41,7 +41,12 @@ public abstract class AbstractDaoImpl<T extends AbstractEntity> implements Dao<T
 
     @Override
     public void delete(Long id) throws SQLException, InterruptedException {
-        entityManager.remove(entityManager.find(getEntityClass(), id));
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaDelete<T> query = cb.createCriteriaDelete(getEntityClass());
+        Root<T> root = query.from(getEntityClass());
+
+        query.where(cb.equal(root.get(AbstractEntity_.ID), id));
+        entityManager.createQuery(query).executeUpdate();
     }
 
     @Override

@@ -6,12 +6,14 @@ import by.ginel.mapper.GenreMapper;
 import by.ginel.service.GenreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class GenreServiceImpl implements GenreService {
     private final GenreMapper genreMapper;
     private final GenreDao genreDao;

@@ -1,10 +1,6 @@
 package by.ginel;
 
-import by.ginel.dao.GenreDao;
 import by.ginel.dao.PersonCredentialsDao;
-import by.ginel.dao.StatusDao;
-import by.ginel.entity.Genre;
-import by.ginel.entity.Status;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;

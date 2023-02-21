@@ -6,12 +6,14 @@ import by.ginel.mapper.StatusMapper;
 import by.ginel.service.StatusService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class StatusServiceImpl implements StatusService {
     private final StatusMapper statusMapper;
     private final StatusDao statusDao;

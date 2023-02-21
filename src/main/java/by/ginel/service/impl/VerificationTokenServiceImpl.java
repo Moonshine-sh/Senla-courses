@@ -6,12 +6,14 @@ import by.ginel.mapper.VerificationTokenMapper;
 import by.ginel.service.VerificationTokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class VerificationTokenServiceImpl implements VerificationTokenService {
     private final VerificationTokenMapper tokenMapper;
     private final VerificationTokenDao tokenDao;

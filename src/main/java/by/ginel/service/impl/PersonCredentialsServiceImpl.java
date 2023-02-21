@@ -6,12 +6,14 @@ import by.ginel.mapper.PersonCredentialsMapper;
 import by.ginel.service.PersonCredentialsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class PersonCredentialsServiceImpl implements PersonCredentialsService {
     private final PersonCredentialsMapper personCredentialsMapper;
     private final PersonCredentialsDao personCredentialsDao;

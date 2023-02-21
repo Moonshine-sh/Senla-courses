@@ -6,12 +6,14 @@ import by.ginel.mapper.PersonMapper;
 import by.ginel.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class PersonServiceImpl implements PersonService {
     private final PersonMapper personMapper;
     private final PersonDao personDao;

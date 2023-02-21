@@ -6,12 +6,14 @@ import by.ginel.mapper.AuthorMapper;
 import by.ginel.service.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorMapper authorMapper;
     private final AuthorDao authorDao;

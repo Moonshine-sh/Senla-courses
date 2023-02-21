@@ -19,6 +19,6 @@ public class PersonDto extends AbstractDto{
     private Boolean enabled;
 
     private Long personCredentialsId;
-    private Set<Long> roles;
+    private List<Long> roles;
     //private List<Long> orderIds;
 }

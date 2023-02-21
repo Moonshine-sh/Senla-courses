@@ -29,12 +29,12 @@ public abstract class PersonMapper {
     //@Mapping(target = "credentials", expression = "java(personCredentialsDao.getById(personDto.getPersonCredentialsId()))"),
     //@Mapping(target = "orders", expression = "java(personDto.getOrderIds().stream().map(this::getOrder).toList())")
 
-    @Mapping(target = "roles", expression = "java(personDto.getRoles().stream().map(this::getRole).collect(Collectors.toSet()))")
+    @Mapping(target = "roles", expression = "java(personDto.getRoles().stream().map(this::getRole).toList())")
     public abstract Person mapToPerson(PersonDto personDto) throws SQLException;
 
     @Mappings({
             @Mapping(target = "personCredentialsId", expression = "java(person.getCredentials().getId())"),
-            @Mapping(target = "roles", expression = "java(person.getRoles().stream().map(AbstractEntity::getId).collect(Collectors.toSet()))")
+            @Mapping(target = "roles", expression = "java(person.getRoles().stream().map(AbstractEntity::getId).toList())")
            // @Mapping(target = "orderIds", expression = "java(person.getOrders().stream().map(AbstractEntity::getId).toList())")
     })
     public abstract PersonDto mapToPersonDto(Person person);
