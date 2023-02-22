@@ -1,61 +1,25 @@
 package by.ginel;
 
-import by.ginel.config.AppConfig;
-import by.ginel.config.DatabaseConfig;
-import by.ginel.controller.*;
-import by.ginel.dto.*;
-import by.ginel.entity.Person;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import by.ginel.dao.PersonCredentialsDao;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
-import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.List;
 
+@Configuration
+@ComponentScan(basePackages = "by.ginel")
 public class Application {
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class, DatabaseConfig.class);
-        PersonController personController = context.getBean(PersonController.class);
-        PersonCredentialsController personCredentialsController = context.getBean(PersonCredentialsController.class);
+        ConfigurableApplicationContext context = new AnnotationConfigApplicationContext(Application.class);
+        PersonCredentialsDao personCredentialsDao = context.getBean(PersonCredentialsDao.class);
 
-        for (int i = 0; i < 5; i++) {
-            Thread thread = new Thread(() -> {
-                try {
-                    test(personController, personCredentialsController);
-                } catch (JsonProcessingException | SQLException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-            });
+        System.out.println(personCredentialsDao.getEntityWithFetchCriteria(28L).getPerson().getId());
 
-            thread.start();
-        }
-    }
+        System.out.println(personCredentialsDao.getEntityWithFetchJPQL(28L).getPerson().getFirstName());
 
-    private static void test(PersonController personController, PersonCredentialsController personCredentialsController) throws JsonProcessingException, SQLException, InterruptedException {
-        PersonDto person = PersonDto.builder()
-                .firstName("Vlad")
-                .lastName("Lisai")
-                .email("vlad@gmail.com")
-                .mobNum("+123456789")
-                .locked(Boolean.FALSE)
-                .enabled(Boolean.TRUE)
-                .roles(List.of(1L, 2L))
-                .build();
-        Long id = personController.save(person);
+        System.out.println(personCredentialsDao.getEntityWithNamedGraph(28L).getPerson().getLastName());
 
-        PersonCredentialsDto personCredentialsDto = PersonCredentialsDto.builder()
-                .login("qwerty")
-                .personId(id)
-                .password("ytrewq")
-                .build();
-        personCredentialsController.save(personCredentialsDto);
-
-        System.out.println(personController.getById(id));
-
-        System.out.println(personController.getAll());
     }
 }

@@ -6,12 +6,14 @@ import by.ginel.mapper.RoleMapper;
 import by.ginel.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class RoleServiceImpl implements RoleService {
     private final RoleMapper roleMapper;
     private final RoleDao roleDao;

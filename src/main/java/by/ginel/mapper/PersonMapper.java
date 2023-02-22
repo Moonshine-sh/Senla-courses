@@ -15,8 +15,9 @@ import org.mapstruct.Mappings;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.SQLException;
+import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring", imports = AbstractEntity.class)
+@Mapper(componentModel = "spring", imports = {AbstractEntity.class, Collectors.class})
 public abstract class PersonMapper {
     @Autowired
     protected PersonCredentialsDao personCredentialsDao;

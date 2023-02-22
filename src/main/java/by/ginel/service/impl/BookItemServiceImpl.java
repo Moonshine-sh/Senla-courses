@@ -6,12 +6,14 @@ import by.ginel.mapper.BookItemMapper;
 import by.ginel.service.BookItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class BookItemServiceImpl implements BookItemService {
     private final BookItemMapper bookItemMapper;
     private final BookItemDao bookItemDao;

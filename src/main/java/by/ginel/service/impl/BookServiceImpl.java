@@ -7,12 +7,14 @@ import by.ginel.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class BookServiceImpl implements BookService {
     private final BookMapper bookMapper;
     private final BookDao bookDao;

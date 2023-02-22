@@ -1,85 +1,56 @@
 package by.ginel.dao.impl;
 
-import by.ginel.config.ConnectionHandler;
 import by.ginel.dao.PersonCredentialsDao;
+import by.ginel.entity.Person;
 import by.ginel.entity.PersonCredentials;
-import by.ginel.mapper.RowMapper;
+import by.ginel.entity.PersonCredentials_;
+import jakarta.persistence.EntityGraph;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
-public class PersonCredentialsDaoImpl implements PersonCredentialsDao {
-    private static final String SELECT_ALL = "select * from person_cred ";
-    private static final String SELECT_BY_ID = "select * from person_cred where pc.id = ?";
-    private static final String SELECT_BY_PERSON_ID = "select p.id pid, pc.id pcid, p.*, pc.* from person_cred pc inner join person p on p.id = pc.person_id where pc.person_id = ?";
-    private static final String INSERT = "INSERT INTO person_cred (login, person_id, password) VALUES (?, ?, ?)";
-    private static final String DELETE = "DELETE FROM person_cred WHERE id = ?";
-    private static final String UPDATE = "UPDATE person_cred SET login = ?, person_id = ?, password = ? WHERE id = ?";
-
-    private final ConnectionHandler connectionHandler;
-    private final RowMapper<PersonCredentials> rowMapper;
+public class PersonCredentialsDaoImpl extends AbstractDaoImpl<PersonCredentials> implements PersonCredentialsDao {
 
     @Override
-    public List<PersonCredentials> getAll() throws SQLException, InterruptedException {
-        try(PreparedStatement selectStatement = getConnection().prepareStatement(SELECT_ALL)){
-            return rowMapper.mapToEntityList(selectStatement.executeQuery());
-        }
+    protected Class<PersonCredentials> getEntityClass() {
+        return PersonCredentials.class;
     }
 
     @Override
-    public PersonCredentials getById(Long id) throws SQLException, InterruptedException {
-        try(PreparedStatement getByIdStatement = getConnection().prepareStatement(SELECT_BY_ID)){
-            getByIdStatement.setLong(1, id);
-            return rowMapper.mapToEntity(getByIdStatement.executeQuery());
-        }
+    public PersonCredentials getEntityWithFetchCriteria(Long id) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<PersonCredentials> cq= cb.createQuery(PersonCredentials.class);
+        Root<PersonCredentials> root = cq.from(PersonCredentials.class);
+        root.fetch("person", JoinType.INNER);
+        cq.select(root).where(cb.equal(root.get(PersonCredentials_.ID), id));
+
+        return entityManager.createQuery(cq).getSingleResult();
     }
 
     @Override
-    public Long save(PersonCredentials entity) throws SQLException, InterruptedException {
-        try(PreparedStatement insertStatement = getConnection().prepareStatement(INSERT)){
-            fillStatement(entity, insertStatement);
-            insertStatement.executeUpdate();
-            return null;
-        }
+    public PersonCredentials getEntityWithFetchJPQL(Long id){
+        TypedQuery<PersonCredentials> query = entityManager.createQuery("select pc from PersonCredentials pc join fetch pc.person where pc.id = :id", PersonCredentials.class);
+        query.setParameter("id", id);
+
+        return query.getSingleResult();
     }
 
     @Override
-    public void delete(Long id) throws SQLException, InterruptedException {
-        try(PreparedStatement deleteStatement = getConnection().prepareStatement(DELETE)){
-            deleteStatement.setLong(1, id);
-            deleteStatement.executeUpdate();
-        }
-    }
+    public PersonCredentials getEntityWithNamedGraph(Long id){
+        EntityGraph entityGraph = entityManager.getEntityGraph("graph.PersonCredentials.person");
 
-    @Override
-    public void update(PersonCredentials entity) throws SQLException, InterruptedException {
-        try(PreparedStatement updateStatement = getConnection().prepareStatement(UPDATE)){
-            fillStatement(entity, updateStatement);
-            updateStatement.setLong(4, entity.getId());
-            updateStatement.executeUpdate();
-        }
-    }
+        Map hints = new HashMap<>();
+        hints.put("jakarta.persistence.fetchgraph", entityGraph);
 
-    @Override
-    public PersonCredentials getByPersonId(Long id) throws SQLException, InterruptedException {
-        try(PreparedStatement getByPersonIdStatement = getConnection().prepareStatement(SELECT_BY_PERSON_ID)){
-            getByPersonIdStatement.setLong(1, id);
-            return rowMapper.mapToEntity(getByPersonIdStatement.executeQuery());
-        }
-    }
-
-    private void fillStatement(PersonCredentials entity, PreparedStatement insertStatement) throws SQLException {
-        insertStatement.setString(1, entity.getLogin());
-        insertStatement.setLong(2, entity.getPersonId());
-        insertStatement.setString(3, entity.getPassword());
-    }
-
-    private Connection getConnection() throws InterruptedException {
-        return connectionHandler.getConnection();
+        return entityManager.find(getEntityClass(), id, hints);
     }
 }

@@ -1,18 +1,19 @@
 package by.ginel.service.impl;
 
-import by.ginel.aspect.Transaction;
 import by.ginel.dao.PersonCredentialsDao;
 import by.ginel.dto.PersonCredentialsDto;
 import by.ginel.mapper.PersonCredentialsMapper;
 import by.ginel.service.PersonCredentialsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class PersonCredentialsServiceImpl implements PersonCredentialsService {
     private final PersonCredentialsMapper personCredentialsMapper;
     private final PersonCredentialsDao personCredentialsDao;
@@ -27,19 +28,17 @@ public class PersonCredentialsServiceImpl implements PersonCredentialsService {
         return personCredentialsMapper.mapToPersonCredentialsDto(personCredentialsDao.getById(id));
     }
 
-    @Transaction
     @Override
     public Long save(PersonCredentialsDto entityDto) throws SQLException, InterruptedException {
         personCredentialsDao.save(personCredentialsMapper.mapToPersonCredentials(entityDto));
         return null;
     }
-    @Transaction
+
     @Override
     public void delete(Long id) throws SQLException, InterruptedException {
         personCredentialsDao.delete(id);
     }
 
-    @Transaction
     @Override
     public void update(PersonCredentialsDto entityDto) throws SQLException, InterruptedException {
         personCredentialsDao.update(personCredentialsMapper.mapToPersonCredentials(entityDto));

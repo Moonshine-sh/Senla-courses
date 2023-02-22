@@ -1,18 +1,27 @@
 package by.ginel.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 
+@Entity
 @Getter
 @Setter
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "book_item")
 public class BookItem extends AbstractEntity{
-//    private Book book;
-//    private Order order;
     private BigDecimal price;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
+    private Book book;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private Order order;
 }

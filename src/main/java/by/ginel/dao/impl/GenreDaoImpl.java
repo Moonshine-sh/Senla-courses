@@ -1,47 +1,29 @@
 package by.ginel.dao.impl;
 
-import by.ginel.config.ConnectionHandler;
 import by.ginel.dao.GenreDao;
 import by.ginel.entity.Genre;
+import by.ginel.entity.Genre_;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
-public class GenreDaoImpl implements GenreDao {
-    private static final String SELECT_ALL = "SELECT * FROM genre";
-    private static final String SELECT_BY_ID = "SELECT * FROM genre WHERE id = ?";
-    private static final String INSERT = "INSERT INTO genre (name) VALUES (?)";
-    private static final String DELETE = "DELETE FROM genre WHERE id = ?";
-    private static final String UPDATE = "UPDATE genre SET name = ? WHERE id = ?";
-
-    private final ConnectionHandler connectionHandler;
+public class GenreDaoImpl extends AbstractDaoImpl<Genre> implements GenreDao {
 
     @Override
-    public List<Genre> getAll() {
-        return null;
+    protected Class<Genre> getEntityClass() {
+        return Genre.class;
     }
 
     @Override
-    public Genre getById(Long id) {
-        return null;
-    }
-
-    @Override
-    public Long save(Genre entity) {
-
-        return null;
-    }
-
-    @Override
-    public void delete(Long id) {
-
-    }
-
-    @Override
-    public void update(Genre entity) {
-
+    public Genre findByName(String name){
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Genre> cq = cb.createQuery(Genre.class);
+        Root<Genre> root = cq.from(Genre.class);
+        cq.select(root).where(cb.equal(root.get(Genre_.NAME), name));
+        return entityManager.createQuery(cq).getSingleResult();
     }
 }
