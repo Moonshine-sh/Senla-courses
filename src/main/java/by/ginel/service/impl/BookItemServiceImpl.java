@@ -29,7 +29,7 @@ public class BookItemServiceImpl implements BookItemService {
     }
 
     @Override
-    public Long save(BookItemDto entityDto) throws SQLException, InterruptedException {
+    public BookItemDto save(BookItemDto entityDto) throws SQLException, InterruptedException {
         bookItemDao.save(bookItemMapper.mapToBookItem(entityDto));
         return null;
     }
@@ -40,7 +40,8 @@ public class BookItemServiceImpl implements BookItemService {
     }
 
     @Override
-    public void update(BookItemDto entityDto) throws SQLException, InterruptedException {
+    public BookItemDto update(BookItemDto entityDto) throws SQLException, InterruptedException {
         bookItemDao.update(bookItemMapper.mapToBookItem(entityDto));
+        return null;
     }
 }

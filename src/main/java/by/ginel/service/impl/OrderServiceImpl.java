@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Long save(OrderDto entityDto) throws SQLException, InterruptedException {
+    public OrderDto save(OrderDto entityDto) throws SQLException, InterruptedException {
         orderDao.save(orderMapper.mapToOrder(entityDto));
         return null;
     }
@@ -40,7 +40,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void update(OrderDto entityDto) throws SQLException, InterruptedException {
+    public OrderDto update(OrderDto entityDto) throws SQLException, InterruptedException {
         orderDao.update(orderMapper.mapToOrder(entityDto));
+        return null;
     }
 }

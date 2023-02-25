@@ -29,7 +29,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Long save(AuthorDto entityDto) throws SQLException, InterruptedException {
+    public AuthorDto save(AuthorDto entityDto) throws SQLException, InterruptedException {
         authorDao.save(authorMapper.mapToAuthor(entityDto));
         return null;
     }
@@ -40,7 +40,8 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public void update(AuthorDto entityDto) throws SQLException, InterruptedException {
+    public AuthorDto update(AuthorDto entityDto) throws SQLException, InterruptedException {
         authorDao.update(authorMapper.mapToAuthor(entityDto));
+        return null;
     }
 }

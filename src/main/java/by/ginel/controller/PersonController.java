@@ -6,10 +6,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
 
-@Component
+@RestController
 @RequiredArgsConstructor
 public class PersonController {
     private final PersonService personService;
@@ -24,7 +25,8 @@ public class PersonController {
     }
 
     public Long save(PersonDto personDto) throws JsonProcessingException, SQLException, InterruptedException {
-        return personService.save(personDto);
+        personService.save(personDto);
+        return null;
     }
 
     public void delete(Long id) throws JsonProcessingException, SQLException, InterruptedException {

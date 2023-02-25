@@ -2,6 +2,7 @@ package by.ginel.service.impl;
 
 import by.ginel.dao.BookDao;
 import by.ginel.dto.BookDto;
+import by.ginel.dto.BookItemDto;
 import by.ginel.mapper.BookMapper;
 import by.ginel.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class BookServiceImpl implements BookService {
 
     @SneakyThrows
     @Override
-    public Long save(BookDto entityDto) throws SQLException {
+    public BookDto save(BookDto entityDto) throws SQLException {
         bookDao.save(bookMapper.mapToBook(entityDto));
         return null;
     }
@@ -42,7 +43,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void update(BookDto entityDto) throws SQLException, InterruptedException {
+    public BookDto update(BookDto entityDto) throws SQLException, InterruptedException {
         bookDao.update(bookMapper.mapToBook(entityDto));
+        return null;
     }
 }

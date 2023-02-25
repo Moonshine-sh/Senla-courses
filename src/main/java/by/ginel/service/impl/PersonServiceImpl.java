@@ -29,7 +29,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Long save(PersonDto entityDto) throws SQLException, InterruptedException {
+    public PersonDto save(PersonDto entityDto) throws SQLException, InterruptedException {
         return null;
     }
 
@@ -39,7 +39,8 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public void update(PersonDto entityDto) throws SQLException, InterruptedException {
+    public PersonDto update(PersonDto entityDto) throws SQLException, InterruptedException {
         personDao.update(personMapper.mapToPerson(entityDto));
+        return null;
     }
 }

@@ -4,19 +4,21 @@ import by.ginel.dao.GenreDao;
 import by.ginel.dto.GenreDto;
 import by.ginel.mapper.GenreMapper;
 import by.ginel.service.GenreService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.SQLException;
 import java.util.List;
 
-@Component
-@RequiredArgsConstructor
+@Service
+@AllArgsConstructor
 @Transactional
 public class GenreServiceImpl implements GenreService {
-    private final GenreMapper genreMapper;
-    private final GenreDao genreDao;
+    private GenreMapper genreMapper;
+    private GenreDao genreDao;
 
     @Override
     public List<GenreDto> getAll() throws SQLException, InterruptedException {
@@ -29,9 +31,8 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public Long save(GenreDto entityDto) throws SQLException, InterruptedException {
-        genreDao.save(genreMapper.mapToGenre(entityDto));
-        return null;
+    public GenreDto save(GenreDto entityDto) throws SQLException, InterruptedException {
+        return genreMapper.mapToGenreDto(genreDao.save(genreMapper.mapToGenre(entityDto)));
     }
 
     @Override
@@ -40,7 +41,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    public void update(GenreDto entityDto) throws SQLException, InterruptedException {
-        genreDao.update(genreMapper.mapToGenre(entityDto));
+    public GenreDto update(GenreDto entityDto) throws SQLException, InterruptedException {
+        return genreMapper.mapToGenreDto(genreDao.update(genreMapper.mapToGenre(entityDto)));
     }
 }

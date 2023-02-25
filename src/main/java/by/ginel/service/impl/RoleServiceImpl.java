@@ -29,7 +29,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Long save(RoleDto entityDto) throws SQLException, InterruptedException {
+    public RoleDto save(RoleDto entityDto) throws SQLException, InterruptedException {
         roleDao.save(roleMapper.mapToRole(entityDto));
         return null;
     }
@@ -40,7 +40,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void update(RoleDto entityDto) throws SQLException, InterruptedException {
+    public RoleDto update(RoleDto entityDto) throws SQLException, InterruptedException {
         roleDao.update(roleMapper.mapToRole(entityDto));
+        return null;
     }
 }

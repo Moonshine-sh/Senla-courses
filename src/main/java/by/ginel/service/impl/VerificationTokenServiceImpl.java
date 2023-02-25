@@ -29,7 +29,7 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     }
 
     @Override
-    public Long save(VerificationTokenDto entityDto) throws SQLException, InterruptedException {
+    public VerificationTokenDto save(VerificationTokenDto entityDto) throws SQLException, InterruptedException {
         tokenDao.save(tokenMapper.mapToVerificationToken(entityDto));
         return null;
     }
@@ -40,7 +40,8 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     }
 
     @Override
-    public void update(VerificationTokenDto entityDto) throws SQLException, InterruptedException {
+    public VerificationTokenDto update(VerificationTokenDto entityDto) throws SQLException, InterruptedException {
         tokenDao.update(tokenMapper.mapToVerificationToken(entityDto));
+        return null;
     }
 }

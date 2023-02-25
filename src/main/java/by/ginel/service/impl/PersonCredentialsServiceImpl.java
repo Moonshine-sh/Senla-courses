@@ -29,7 +29,7 @@ public class PersonCredentialsServiceImpl implements PersonCredentialsService {
     }
 
     @Override
-    public Long save(PersonCredentialsDto entityDto) throws SQLException, InterruptedException {
+    public PersonCredentialsDto save(PersonCredentialsDto entityDto) throws SQLException, InterruptedException {
         personCredentialsDao.save(personCredentialsMapper.mapToPersonCredentials(entityDto));
         return null;
     }
@@ -40,7 +40,8 @@ public class PersonCredentialsServiceImpl implements PersonCredentialsService {
     }
 
     @Override
-    public void update(PersonCredentialsDto entityDto) throws SQLException, InterruptedException {
+    public PersonCredentialsDto update(PersonCredentialsDto entityDto) throws SQLException, InterruptedException {
         personCredentialsDao.update(personCredentialsMapper.mapToPersonCredentials(entityDto));
+        return null;
     }
 }

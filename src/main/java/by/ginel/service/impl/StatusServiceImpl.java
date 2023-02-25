@@ -29,7 +29,7 @@ public class StatusServiceImpl implements StatusService {
     }
 
     @Override
-    public Long save(StatusDto entityDto) throws SQLException, InterruptedException {
+    public StatusDto save(StatusDto entityDto) throws SQLException, InterruptedException {
         statusDao.save(statusMapper.mapToStatus(entityDto));
         return null;
     }
@@ -40,7 +40,8 @@ public class StatusServiceImpl implements StatusService {
     }
 
     @Override
-    public void update(StatusDto entityDto) throws SQLException, InterruptedException {
+    public StatusDto update(StatusDto entityDto) throws SQLException, InterruptedException {
         statusDao.update(statusMapper.mapToStatus(entityDto));
+        return null;
     }
 }
