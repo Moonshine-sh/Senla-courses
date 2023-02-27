@@ -13,33 +13,32 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/genre")
+@RequestMapping("/genres")
 public class GenreController {
     private final GenreService genreService;
-    private final ObjectMapper objectMapper;
 
-    @GetMapping("/")
-    public List<GenreDto> getAll() throws JsonProcessingException, SQLException, InterruptedException {
+    @GetMapping
+    public List<GenreDto> getAll() {
         return genreService.getAll();
     }
 
     @GetMapping("/{id}")
-    public GenreDto getById(@PathVariable Long id) throws JsonProcessingException, SQLException, InterruptedException {
+    public GenreDto getById(@PathVariable Long id) {
         return genreService.getById(id);
     }
 
-    @PostMapping("/save")
-    public GenreDto save(@RequestBody GenreDto genreDto) throws JsonProcessingException, SQLException, InterruptedException {
+    @PostMapping
+    public GenreDto save(@RequestBody GenreDto genreDto) {
         return genreService.save(genreDto);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void delete(@PathVariable Long id) throws JsonProcessingException, SQLException, InterruptedException {
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
         genreService.delete(id);
     }
 
-    @PutMapping("/update")
-    public void update(@RequestBody GenreDto genreDto) throws JsonProcessingException, SQLException, InterruptedException {
+    @PutMapping
+    public void update(@RequestBody GenreDto genreDto) {
         genreService.update(genreDto);
     }
 }

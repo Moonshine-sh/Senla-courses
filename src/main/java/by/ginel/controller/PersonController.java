@@ -6,34 +6,39 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/people")
 public class PersonController {
     private final PersonService personService;
-    private final ObjectMapper objectMapper;
 
-    public String getAll() throws JsonProcessingException, SQLException, InterruptedException {
-        return objectMapper.writeValueAsString(personService.getAll());
+    @GetMapping
+    public List<PersonDto> getAll() {
+        return personService.getAll();
     }
 
-    public String getById(Long id) throws JsonProcessingException, SQLException, InterruptedException {
-        return objectMapper.writeValueAsString(personService.getById(id));
+    @GetMapping("/{id}")
+    public PersonDto getById(@PathVariable Long id) {
+        return personService.getById(id);
     }
 
-    public Long save(PersonDto personDto) throws JsonProcessingException, SQLException, InterruptedException {
-        personService.save(personDto);
-        return null;
+    @PostMapping
+    public PersonDto save(@RequestBody PersonDto personDto) {
+        return personService.save(personDto);
     }
 
-    public void delete(Long id) throws JsonProcessingException, SQLException, InterruptedException {
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
         personService.delete(id);
     }
 
-    public void update(PersonDto personDto) throws JsonProcessingException, SQLException, InterruptedException {
-        personService.update(personDto);
+    @PutMapping
+    public PersonDto update(@RequestBody PersonDto personDto) {
+        return personService.update(personDto);
     }
 }

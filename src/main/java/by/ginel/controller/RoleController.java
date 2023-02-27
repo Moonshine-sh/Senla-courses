@@ -2,37 +2,39 @@ package by.ginel.controller;
 
 import by.ginel.dto.RoleDto;
 import by.ginel.service.RoleService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/roles")
 public class RoleController {
     private final RoleService roleService;
-    private final ObjectMapper objectMapper;
 
-    public String getAll() throws JsonProcessingException, SQLException, InterruptedException {
-        return objectMapper.writeValueAsString(roleService.getAll());
+    @GetMapping
+    public List<RoleDto> getAll() {
+        return roleService.getAll();
     }
 
-    public String getById(Long id) throws JsonProcessingException, SQLException, InterruptedException {
-        return objectMapper.writeValueAsString(roleService.getById(id));
+    @GetMapping("/{id}")
+    public RoleDto getById(@PathVariable Long id) {
+        return roleService.getById(id);
     }
 
-    public void save(RoleDto roleDto) throws JsonProcessingException, SQLException, InterruptedException {
-        roleService.save(roleDto);
+    @PostMapping
+    public RoleDto save(@RequestBody RoleDto roleDto) {
+        return roleService.save(roleDto);
     }
 
-    public void delete(Long id) throws JsonProcessingException, SQLException, InterruptedException {
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
         roleService.delete(id);
     }
 
-    public void update(RoleDto roleDto) throws JsonProcessingException, SQLException, InterruptedException {
-        roleService.update(roleDto);
+    @PutMapping
+    public RoleDto update(@RequestBody RoleDto roleDto) {
+        return roleService.update(roleDto);
     }
 }

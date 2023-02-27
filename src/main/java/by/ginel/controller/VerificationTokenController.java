@@ -6,33 +6,39 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/tokens")
 public class VerificationTokenController {
     private final VerificationTokenService verificationTokenService;
-    private final ObjectMapper objectMapper;
 
-    public String getAll() throws JsonProcessingException, SQLException, InterruptedException {
-        return objectMapper.writeValueAsString(verificationTokenService.getAll());
+    @GetMapping
+    public List<VerificationTokenDto> getAll() {
+        return verificationTokenService.getAll();
     }
 
-    public String getById(Long id) throws JsonProcessingException, SQLException, InterruptedException {
-        return objectMapper.writeValueAsString(verificationTokenService.getById(id));
+    @GetMapping("/{id}")
+    public VerificationTokenDto getById(@PathVariable Long id) {
+        return verificationTokenService.getById(id);
     }
 
-    public void save(VerificationTokenDto verificationTokenDto) throws JsonProcessingException, SQLException, InterruptedException {
-        verificationTokenService.save(verificationTokenDto);
+    @PostMapping
+    public VerificationTokenDto save(@RequestBody VerificationTokenDto verificationTokenDto) {
+        return verificationTokenService.save(verificationTokenDto);
     }
 
-    public void delete(Long id) throws JsonProcessingException, SQLException, InterruptedException {
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
         verificationTokenService.delete(id);
     }
 
-    public void update(VerificationTokenDto verificationTokenDto) throws JsonProcessingException, SQLException, InterruptedException {
-        verificationTokenService.update(verificationTokenDto);
+    @PutMapping
+    public VerificationTokenDto update(@RequestBody VerificationTokenDto verificationTokenDto) {
+        return verificationTokenService.update(verificationTokenDto);
     }
 }

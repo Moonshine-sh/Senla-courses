@@ -1,5 +1,6 @@
 package by.ginel.dao;
 
+import by.ginel.config.AppConfig;
 import by.ginel.config.DatabaseConfig;
 import by.ginel.entity.Genre;
 import org.junit.Assert;
@@ -11,17 +12,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
-
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = DatabaseConfig.class, loader = AnnotationConfigContextLoader.class)
+@ContextConfiguration(classes = AppConfig.class, loader = AnnotationConfigContextLoader.class)
 @Transactional
 public class GenreDaoTest {
     @Autowired
     private GenreDao genreDao;
 
     @Test
-    public void saveTest() throws SQLException, InterruptedException {
+    public void saveTest() {
         Genre genre = Genre.builder()
                 .name("ACTION")
                 .build();
@@ -32,7 +31,7 @@ public class GenreDaoTest {
     }
 
     @Test
-    public void updateTest() throws SQLException, InterruptedException {
+    public void updateTest() {
         Genre genre = Genre.builder()
                 .name("ACTION")
                 .build();
@@ -48,7 +47,7 @@ public class GenreDaoTest {
     }
 
     @Test
-    public void deleteTest() throws SQLException, InterruptedException {
+    public void deleteTest() {
         Genre genre = Genre.builder()
                 .name("ACTION")
                 .build();
@@ -61,7 +60,7 @@ public class GenreDaoTest {
     }
 
     @Test
-    public void getAllTest() throws SQLException, InterruptedException {
+    public void getAllTest() {
         Genre genre1 = Genre.builder()
                 .name("ACTION")
                 .build();
@@ -80,7 +79,7 @@ public class GenreDaoTest {
     }
 
     @Test
-    public void getByIdTest() throws SQLException, InterruptedException {
+    public void getByIdTest() {
         Genre genre = Genre.builder()
                 .name("ACTION")
                 .build();

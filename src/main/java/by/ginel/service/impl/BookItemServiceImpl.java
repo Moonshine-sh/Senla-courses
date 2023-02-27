@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -19,29 +18,27 @@ public class BookItemServiceImpl implements BookItemService {
     private final BookItemDao bookItemDao;
 
     @Override
-    public List<BookItemDto> getAll() throws SQLException, InterruptedException {
+    public List<BookItemDto> getAll() {
         return bookItemDao.getAll().stream().map(bookItemMapper::mapToBookItemDto).toList();
     }
 
     @Override
-    public BookItemDto getById(Long id) throws SQLException, InterruptedException {
+    public BookItemDto getById(Long id) {
         return bookItemMapper.mapToBookItemDto(bookItemDao.getById(id));
     }
 
     @Override
-    public BookItemDto save(BookItemDto entityDto) throws SQLException, InterruptedException {
-        bookItemDao.save(bookItemMapper.mapToBookItem(entityDto));
-        return null;
+    public BookItemDto save(BookItemDto entityDto) {
+        return bookItemMapper.mapToBookItemDto(bookItemDao.save(bookItemMapper.mapToBookItem(entityDto)));
     }
 
     @Override
-    public void delete(Long id) throws SQLException, InterruptedException {
+    public void delete(Long id) {
         bookItemDao.delete(id);
     }
 
     @Override
-    public BookItemDto update(BookItemDto entityDto) throws SQLException, InterruptedException {
-        bookItemDao.update(bookItemMapper.mapToBookItem(entityDto));
-        return null;
+    public BookItemDto update(BookItemDto entityDto) {
+        return bookItemMapper.mapToBookItemDto(bookItemDao.update(bookItemMapper.mapToBookItem(entityDto)));
     }
 }

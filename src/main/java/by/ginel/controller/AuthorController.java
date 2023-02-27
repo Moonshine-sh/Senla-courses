@@ -2,44 +2,39 @@ package by.ginel.controller;
 
 import by.ginel.dto.AuthorDto;
 import by.ginel.service.AuthorService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/authors")
 public class AuthorController {
     private final AuthorService authorService;
-    private final ObjectMapper objectMapper;
 
-    @GetMapping("/")
-    public  String test(){
-        return "hello";
+    @GetMapping
+    public List<AuthorDto> getAll() {
+        return authorService.getAll();
     }
 
-    public String getAll() throws JsonProcessingException, SQLException, InterruptedException {
-        return objectMapper.writeValueAsString(authorService.getAll());
+    @GetMapping("/{id}")
+    public AuthorDto getById(@PathVariable Long id) {
+        return authorService.getById(id);
     }
 
-    public String getById(Long id) throws JsonProcessingException, SQLException, InterruptedException {
-        return objectMapper.writeValueAsString(authorService.getById(id));
+    @PostMapping
+    public AuthorDto save(@RequestBody AuthorDto authorDto) {
+        return authorService.save(authorDto);
     }
 
-    public void save(AuthorDto authorDto) throws JsonProcessingException, SQLException, InterruptedException {
-        authorService.save(authorDto);
-    }
-
-    public void delete(Long id) throws JsonProcessingException, SQLException, InterruptedException {
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
         authorService.delete(id);
     }
 
-    public void update(AuthorDto authorDto) throws JsonProcessingException, SQLException, InterruptedException {
-        authorService.update(authorDto);
+    @PutMapping
+    public AuthorDto update(@RequestBody AuthorDto authorDto) {
+        return authorService.update(authorDto);
     }
 }

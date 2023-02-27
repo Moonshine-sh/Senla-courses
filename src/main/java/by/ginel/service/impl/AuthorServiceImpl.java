@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -19,29 +18,27 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorDao authorDao;
 
     @Override
-    public List<AuthorDto> getAll() throws SQLException, InterruptedException {
+    public List<AuthorDto> getAll() {
         return authorDao.getAll().stream().map(authorMapper::mapToAuthorDto).toList();
     }
 
     @Override
-    public AuthorDto getById(Long id) throws SQLException, InterruptedException {
+    public AuthorDto getById(Long id) {
         return authorMapper.mapToAuthorDto(authorDao.getById(id));
     }
 
     @Override
-    public AuthorDto save(AuthorDto entityDto) throws SQLException, InterruptedException {
-        authorDao.save(authorMapper.mapToAuthor(entityDto));
-        return null;
+    public AuthorDto save(AuthorDto entityDto) {
+        return authorMapper.mapToAuthorDto(authorDao.save(authorMapper.mapToAuthor(entityDto)));
     }
 
     @Override
-    public void delete(Long id) throws SQLException, InterruptedException {
+    public void delete(Long id) {
         authorDao.delete(id);
     }
 
     @Override
-    public AuthorDto update(AuthorDto entityDto) throws SQLException, InterruptedException {
-        authorDao.update(authorMapper.mapToAuthor(entityDto));
-        return null;
+    public AuthorDto update(AuthorDto entityDto) {
+        return authorMapper.mapToAuthorDto(authorDao.update(authorMapper.mapToAuthor(entityDto)));
     }
 }

@@ -1,20 +1,27 @@
 package by.ginel.handler;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalControllerAdvice {
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+
     @ExceptionHandler(EntityNotFoundException.class)
-    public String notFoundEntityMessage() {
-        return "No Such Mapping or Entity not found";
+    public ResponseEntity<Object> handleEntityNotFoundException(Exception ex) {
+        String message = ex.getMessage();
+        log.error(message, ex);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
+
     @ExceptionHandler(RuntimeException.class)
-    public String catchRuntimeException() {
-        return "Service expirienced some problems";
+    public ResponseEntity<Object> catchRuntimeException(Exception ex) {
+        String message = ex.getMessage();
+        log.error(message, ex);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
     }
 }

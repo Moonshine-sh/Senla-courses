@@ -1,6 +1,7 @@
 package by.ginel;
 
 import by.ginel.config.AppConfig;
+import by.ginel.config.WebConfig;
 import by.ginel.dao.GenreDao;
 import by.ginel.entity.Genre;
 import org.junit.Assert;
@@ -27,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = AppConfig.class, loader = AnnotationConfigWebContextLoader.class)
+@ContextConfiguration(classes = {AppConfig.class, WebConfig.class}, loader = AnnotationConfigWebContextLoader.class)
 @WebAppConfiguration
 public class MvcTest {
     @Autowired
@@ -43,13 +44,13 @@ public class MvcTest {
     }
 
     @Test
-    public void webAppContextTest() throws Exception {
+    public void webAppContextTest() {
         Assert.assertTrue(webApplicationContext.getServletContext() instanceof MockServletContext);
     }
 
     @Test
     public void getAllTest() throws Exception {
-        mockMvc.perform(get("/genre/")).andDo(print())
+        mockMvc.perform(get("/genres")).andDo(print())
                 .andExpect(status().is2xxSuccessful());
     }
 
@@ -62,7 +63,7 @@ public class MvcTest {
 
         Genre saved = genreDao.save(genre);
 
-        mockMvc.perform(get("/genre/" + saved.getId()))
+        mockMvc.perform(get("/genres/" + saved.getId()))
                 .andExpect(status().is2xxSuccessful())
                 .andDo(print())
                 .andExpect(jsonPath("$.name").value(saved.getName()));
@@ -77,7 +78,7 @@ public class MvcTest {
 
         Genre saved = genreDao.save(genre);
 
-        mockMvc.perform(delete("/genre/delete/" + saved.getId()))
+        mockMvc.perform(delete("/genres/" + saved.getId()))
                 .andExpect(status().is2xxSuccessful())
                 .andDo(print());
 
@@ -101,7 +102,7 @@ public class MvcTest {
                 """, saved.getId()
         );
 
-        mockMvc.perform(put("/genre/update")
+        mockMvc.perform(put("/genres")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8)
                 .content(genreNew))
@@ -123,7 +124,7 @@ public class MvcTest {
                 }
                 """;
 
-        mockMvc.perform(post("/genre/save")
+        mockMvc.perform(post("/genres")
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8)
                 .content(genre))

@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -19,29 +18,27 @@ public class RoleServiceImpl implements RoleService {
     private final RoleDao roleDao;
 
     @Override
-    public List<RoleDto> getAll() throws SQLException, InterruptedException {
+    public List<RoleDto> getAll() {
         return roleDao.getAll().stream().map(roleMapper::mapToRoleDto).toList();
     }
 
     @Override
-    public RoleDto getById(Long id) throws SQLException, InterruptedException {
+    public RoleDto getById(Long id) {
         return roleMapper.mapToRoleDto(roleDao.getById(id));
     }
 
     @Override
-    public RoleDto save(RoleDto entityDto) throws SQLException, InterruptedException {
-        roleDao.save(roleMapper.mapToRole(entityDto));
-        return null;
+    public RoleDto save(RoleDto entityDto) {
+        return roleMapper.mapToRoleDto(roleDao.save(roleMapper.mapToRole(entityDto)));
     }
 
     @Override
-    public void delete(Long id) throws SQLException, InterruptedException {
+    public void delete(Long id) {
         roleDao.delete(id);
     }
 
     @Override
-    public RoleDto update(RoleDto entityDto) throws SQLException, InterruptedException {
-        roleDao.update(roleMapper.mapToRole(entityDto));
-        return null;
+    public RoleDto update(RoleDto entityDto) {
+        return roleMapper.mapToRoleDto(roleDao.update(roleMapper.mapToRole(entityDto)));
     }
 }

@@ -2,37 +2,39 @@ package by.ginel.controller;
 
 import by.ginel.dto.BookItemDto;
 import by.ginel.service.BookItemService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/book-items")
 public class BookItemController {
     private final BookItemService bookItemService;
-    private final ObjectMapper objectMapper;
 
-    public String getAll() throws JsonProcessingException, SQLException, InterruptedException {
-        return objectMapper.writeValueAsString(bookItemService.getAll());
+    @GetMapping
+    public List<BookItemDto> getAll() {
+        return bookItemService.getAll();
     }
 
-    public String getById(Long id) throws JsonProcessingException, SQLException, InterruptedException {
-        return objectMapper.writeValueAsString(bookItemService.getById(id));
+    @GetMapping("/{id}")
+    public BookItemDto getById(@PathVariable Long id) {
+        return bookItemService.getById(id);
     }
 
-    public void save(BookItemDto bookItemDto) throws JsonProcessingException, SQLException, InterruptedException {
-        bookItemService.save(bookItemDto);
+    @PostMapping
+    public BookItemDto save(@RequestBody BookItemDto bookItemDto) {
+        return bookItemService.save(bookItemDto);
     }
 
-    public void delete(Long id) throws JsonProcessingException, SQLException, InterruptedException {
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
         bookItemService.delete(id);
     }
 
-    public void update(BookItemDto bookItemDto) throws JsonProcessingException, SQLException, InterruptedException {
-        bookItemService.update(bookItemDto);
+    @PutMapping
+    public BookItemDto update(@RequestBody BookItemDto bookItemDto) {
+        return bookItemService.update(bookItemDto);
     }
 }
