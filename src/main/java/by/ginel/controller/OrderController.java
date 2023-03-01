@@ -3,35 +3,40 @@ package by.ginel.controller;
 import by.ginel.dto.OrderDto;
 import by.ginel.service.OrderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.List;
 
-@Component
+@RestController
 @RequiredArgsConstructor
+@RequestMapping("/orders")
 public class OrderController {
     private final OrderService orderService;
-    private final ObjectMapper objectMapper;
 
-    public String getAll() throws JsonProcessingException, SQLException, InterruptedException {
-        return objectMapper.writeValueAsString(orderService.getAll());
+    @GetMapping
+    public List<OrderDto> getAll() {
+        return orderService.getAll();
     }
 
-    public String getById(Long id) throws JsonProcessingException, SQLException, InterruptedException {
-        return objectMapper.writeValueAsString(orderService.getById(id));
+    @GetMapping("/{id}")
+    public OrderDto getById(@PathVariable Long id) {
+        return orderService.getById(id);
     }
 
-    public void save(OrderDto orderDto) throws JsonProcessingException, SQLException, InterruptedException {
-        orderService.save(orderDto);
+    @PostMapping
+    public OrderDto save(@RequestBody OrderDto orderDto) {
+        return orderService.save(orderDto);
     }
 
-    public void delete(Long id) throws JsonProcessingException, SQLException, InterruptedException {
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
         orderService.delete(id);
     }
 
-    public void update(OrderDto orderDto) throws JsonProcessingException, SQLException, InterruptedException {
-        orderService.update(orderDto);
+    @PutMapping
+    public OrderDto update(@RequestBody OrderDto orderDto) {
+        return orderService.update(orderDto);
     }
 }

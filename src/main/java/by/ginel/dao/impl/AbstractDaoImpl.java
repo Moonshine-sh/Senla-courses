@@ -10,7 +10,6 @@ import jakarta.persistence.criteria.CriteriaDelete;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public abstract class AbstractDaoImpl<T extends AbstractEntity> implements Dao<T> {
@@ -21,7 +20,7 @@ public abstract class AbstractDaoImpl<T extends AbstractEntity> implements Dao<T
     protected abstract Class<T> getEntityClass();
 
     @Override
-    public List<T> getAll() throws SQLException, InterruptedException {
+    public List<T> getAll() {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<T> query = cb.createQuery(getEntityClass());
         Root<T> from = query.from(getEntityClass());
@@ -29,18 +28,18 @@ public abstract class AbstractDaoImpl<T extends AbstractEntity> implements Dao<T
     }
 
     @Override
-    public T getById(Long id) throws SQLException, InterruptedException {
+    public T getById(Long id) {
         return entityManager.find(getEntityClass(), id);
     }
 
     @Override
-    public T save(T entity) throws SQLException, InterruptedException {
+    public T save(T entity) {
         entityManager.persist(entity);
         return entity;
     }
 
     @Override
-    public void delete(Long id) throws SQLException, InterruptedException {
+    public void delete(Long id) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaDelete<T> query = cb.createCriteriaDelete(getEntityClass());
         Root<T> root = query.from(getEntityClass());
@@ -50,7 +49,7 @@ public abstract class AbstractDaoImpl<T extends AbstractEntity> implements Dao<T
     }
 
     @Override
-    public T update(T entity) throws SQLException, InterruptedException {
+    public T update(T entity) {
         return entityManager.merge(entity);
     }
 }

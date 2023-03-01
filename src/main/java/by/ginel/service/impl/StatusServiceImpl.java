@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -19,28 +18,27 @@ public class StatusServiceImpl implements StatusService {
     private final StatusDao statusDao;
 
     @Override
-    public List<StatusDto> getAll() throws SQLException, InterruptedException {
+    public List<StatusDto> getAll() {
         return statusDao.getAll().stream().map(statusMapper::mapToStatusDto).toList();
     }
 
     @Override
-    public StatusDto getById(Long id) throws SQLException, InterruptedException {
+    public StatusDto getById(Long id) {
         return statusMapper.mapToStatusDto(statusDao.getById(id));
     }
 
     @Override
-    public Long save(StatusDto entityDto) throws SQLException, InterruptedException {
-        statusDao.save(statusMapper.mapToStatus(entityDto));
-        return null;
+    public StatusDto save(StatusDto entityDto) {
+        return statusMapper.mapToStatusDto(statusDao.save(statusMapper.mapToStatus(entityDto)));
     }
 
     @Override
-    public void delete(Long id) throws SQLException, InterruptedException {
+    public void delete(Long id) {
         statusDao.delete(id);
     }
 
     @Override
-    public void update(StatusDto entityDto) throws SQLException, InterruptedException {
-        statusDao.update(statusMapper.mapToStatus(entityDto));
+    public StatusDto update(StatusDto entityDto) {
+        return statusMapper.mapToStatusDto(statusDao.update(statusMapper.mapToStatus(entityDto)));
     }
 }

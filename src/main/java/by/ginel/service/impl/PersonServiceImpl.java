@@ -19,27 +19,27 @@ public class PersonServiceImpl implements PersonService {
     private final PersonDao personDao;
 
     @Override
-    public List<PersonDto> getAll() throws SQLException, InterruptedException {
+    public List<PersonDto> getAll()  {
         return personDao.getAll().stream().map(personMapper::mapToPersonDto).toList();
     }
 
     @Override
-    public PersonDto getById(Long id) throws SQLException, InterruptedException {
+    public PersonDto getById(Long id)  {
         return personMapper.mapToPersonDto(personDao.getById(id));
     }
 
     @Override
-    public Long save(PersonDto entityDto) throws SQLException, InterruptedException {
-        return null;
+    public PersonDto save(PersonDto entityDto) {
+        return personMapper.mapToPersonDto(personDao.save(personMapper.mapToPerson(entityDto)));
     }
 
     @Override
-    public void delete(Long id) throws SQLException, InterruptedException {
+    public void delete(Long id)  {
         personDao.delete(id);
     }
 
     @Override
-    public void update(PersonDto entityDto) throws SQLException, InterruptedException {
-        personDao.update(personMapper.mapToPerson(entityDto));
+    public PersonDto update(PersonDto entityDto)  {
+        return personMapper.mapToPersonDto(personDao.update(personMapper.mapToPerson(entityDto)));
     }
 }

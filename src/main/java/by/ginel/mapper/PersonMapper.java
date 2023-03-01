@@ -28,31 +28,13 @@ public abstract class PersonMapper {
 
     //@Mapping(target = "credentials", expression = "java(personCredentialsDao.getById(personDto.getPersonCredentialsId()))"),
     //@Mapping(target = "orders", expression = "java(personDto.getOrderIds().stream().map(this::getOrder).toList())")
+    @Mapping(target = "roles", expression = "java(personDto.getRoles().stream().map(roleDao::getById).toList())")
+    public abstract Person mapToPerson(PersonDto personDto);
 
-    @Mapping(target = "roles", expression = "java(personDto.getRoles().stream().map(this::getRole).toList())")
-    public abstract Person mapToPerson(PersonDto personDto) throws SQLException;
-
-    @Mappings({
-            @Mapping(target = "personCredentialsId", expression = "java(person.getCredentials().getId())"),
+//    @Mappings({
+//            @Mapping(target = "personCredentialsId", expression = "java(person.getCredentials().getId())"),
             @Mapping(target = "roles", expression = "java(person.getRoles().stream().map(AbstractEntity::getId).toList())")
-           // @Mapping(target = "orderIds", expression = "java(person.getOrders().stream().map(AbstractEntity::getId).toList())")
-    })
+//            @Mapping(target = "orderIds", expression = "java(person.getOrders().stream().map(AbstractEntity::getId).toList())")
+//    })
     public abstract PersonDto mapToPersonDto(Person person);
-
-    protected Role getRole(Long id){
-        try {
-            return roleDao.getById(id);
-        } catch (SQLException | InterruptedException throwables) {
-            throwables.printStackTrace();
-        } return null;
-    }
-
-    protected Order getOrder(Long id){
-        try {
-            return orderDao.getById(id);
-        } catch (SQLException | InterruptedException throwables) {
-            throwables.printStackTrace();
-        }
-        return null;
-    }
 }

@@ -19,10 +19,9 @@ import java.util.Properties;
 
 
 @Configuration
-@PropertySource("application.properties")
+@PropertySource("classpath:application.properties")
 @EnableTransactionManagement
 @RequiredArgsConstructor
-@ComponentScan(basePackages = "by.ginel.dao")
 public class DatabaseConfig {
     private final Environment env;
 

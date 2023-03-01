@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -19,28 +18,27 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     private final VerificationTokenDao tokenDao;
 
     @Override
-    public List<VerificationTokenDto> getAll() throws SQLException, InterruptedException {
+    public List<VerificationTokenDto> getAll() {
         return tokenDao.getAll().stream().map(tokenMapper::mapToVerificationTokenDto).toList();
     }
 
     @Override
-    public VerificationTokenDto getById(Long id) throws SQLException, InterruptedException {
+    public VerificationTokenDto getById(Long id) {
         return tokenMapper.mapToVerificationTokenDto(tokenDao.getById(id));
     }
 
     @Override
-    public Long save(VerificationTokenDto entityDto) throws SQLException, InterruptedException {
-        tokenDao.save(tokenMapper.mapToVerificationToken(entityDto));
-        return null;
+    public VerificationTokenDto save(VerificationTokenDto entityDto) {
+        return tokenMapper.mapToVerificationTokenDto(tokenDao.save(tokenMapper.mapToVerificationToken(entityDto)));
     }
 
     @Override
-    public void delete(Long id) throws SQLException, InterruptedException {
+    public void delete(Long id) {
         tokenDao.delete(id);
     }
 
     @Override
-    public void update(VerificationTokenDto entityDto) throws SQLException, InterruptedException {
-        tokenDao.update(tokenMapper.mapToVerificationToken(entityDto));
+    public VerificationTokenDto update(VerificationTokenDto entityDto) {
+        return tokenMapper.mapToVerificationTokenDto(tokenDao.update(tokenMapper.mapToVerificationToken(entityDto)));
     }
 }
