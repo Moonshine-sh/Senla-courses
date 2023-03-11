@@ -3,6 +3,7 @@ package by.ginel.controller;
 import by.ginel.dto.PersonCredentialsDto;
 import by.ginel.service.PersonCredentialsService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/people-credentials")
+@PreAuthorize("hasAnyAuthority('admin')")
 public class PersonCredentialsController {
     private final PersonCredentialsService personCredentialsService;
 

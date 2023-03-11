@@ -26,31 +26,11 @@ public class PersonCredentialsDaoImpl extends AbstractDaoImpl<PersonCredentials>
     }
 
     @Override
-    public PersonCredentials getEntityWithFetchCriteria(Long id) {
+    public PersonCredentials findByUsername(String username){
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<PersonCredentials> cq= cb.createQuery(PersonCredentials.class);
+        CriteriaQuery<PersonCredentials> cq = cb.createQuery(PersonCredentials.class);
         Root<PersonCredentials> root = cq.from(PersonCredentials.class);
-        root.fetch("person", JoinType.INNER);
-        cq.select(root).where(cb.equal(root.get(PersonCredentials_.ID), id));
-
+        cq.select(root).where(cb.equal(root.get(PersonCredentials_.LOGIN), username));
         return entityManager.createQuery(cq).getSingleResult();
-    }
-
-    @Override
-    public PersonCredentials getEntityWithFetchJPQL(Long id){
-        TypedQuery<PersonCredentials> query = entityManager.createQuery("select pc from PersonCredentials pc join fetch pc.person where pc.id = :id", PersonCredentials.class);
-        query.setParameter("id", id);
-
-        return query.getSingleResult();
-    }
-
-    @Override
-    public PersonCredentials getEntityWithNamedGraph(Long id){
-        EntityGraph entityGraph = entityManager.getEntityGraph("graph.PersonCredentials.person");
-
-        Map hints = new HashMap<>();
-        hints.put("jakarta.persistence.fetchgraph", entityGraph);
-
-        return entityManager.find(getEntityClass(), id, hints);
     }
 }

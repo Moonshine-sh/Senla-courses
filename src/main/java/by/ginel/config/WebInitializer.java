@@ -9,6 +9,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 public class WebInitializer implements WebApplicationInitializer {
 
+    @Override
     public void onStartup(ServletContext servletContext) {
 
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
@@ -16,8 +17,9 @@ public class WebInitializer implements WebApplicationInitializer {
 
         servletContext.addListener(new ContextLoaderListener(rootContext));
 
-        rootContext.register(WebConfig.class);
-        DispatcherServlet dispatcherServlet = new DispatcherServlet(rootContext);
+        AnnotationConfigWebApplicationContext webContext = new AnnotationConfigWebApplicationContext();
+        webContext.register(AppConfig.class);
+        DispatcherServlet dispatcherServlet = new DispatcherServlet(webContext);
 
         dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
 
