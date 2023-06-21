@@ -9,7 +9,6 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "person_cred")
 @NamedEntityGraph(name = "graph.PersonCredentials.person",

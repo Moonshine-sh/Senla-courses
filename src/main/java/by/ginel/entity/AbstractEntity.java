@@ -9,7 +9,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @EqualsAndHashCode
 @NoArgsConstructor
-@AllArgsConstructor
 @MappedSuperclass
 public abstract class AbstractEntity {
 

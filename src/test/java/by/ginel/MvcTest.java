@@ -3,6 +3,7 @@ package by.ginel;
 import by.ginel.config.AppConfig;
 import by.ginel.dao.GenreDao;
 import by.ginel.entity.Genre;
+import by.ginel.util.Pageable;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -88,7 +89,7 @@ public class MvcTest {
                 .andExpect(status().is2xxSuccessful())
                 .andDo(print());
 
-        Assert.assertEquals(genreDao.getAll().size(), 0);
+        Assert.assertEquals(genreDao.getAll(Pageable.maxPage()).size(), 0);
     }
 
     @WithMockUser(authorities = "admin")

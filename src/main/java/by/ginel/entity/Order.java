@@ -6,13 +6,13 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "\"order\"")
 public class Order extends AbstractEntity{
@@ -26,4 +26,7 @@ public class Order extends AbstractEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
     private Person person;
+
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
+    private List<BookItem> bookItems;
 }

@@ -1,11 +1,12 @@
 package by.ginel.dao;
 
 import by.ginel.entity.AbstractEntity;
+import by.ginel.util.Pageable;
 
 import java.util.List;
 
 public interface Dao<T extends AbstractEntity> {
-    List<T> getAll();
+    List<T> getAll(Pageable pageable);
 
     T getById(Long id);
 

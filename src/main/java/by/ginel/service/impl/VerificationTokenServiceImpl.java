@@ -4,6 +4,7 @@ import by.ginel.dao.VerificationTokenDao;
 import by.ginel.dto.VerificationTokenDto;
 import by.ginel.mapper.VerificationTokenMapper;
 import by.ginel.service.VerificationTokenService;
+import by.ginel.util.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +19,13 @@ public class VerificationTokenServiceImpl implements VerificationTokenService {
     private final VerificationTokenDao tokenDao;
 
     @Override
+    public List<VerificationTokenDto> getAll(Pageable pageable) {
+        return tokenDao.getAll(pageable).stream().map(tokenMapper::mapToVerificationTokenDto).toList();
+    }
+
+    @Override
     public List<VerificationTokenDto> getAll() {
-        return tokenDao.getAll().stream().map(tokenMapper::mapToVerificationTokenDto).toList();
+        return getAll(Pageable.maxPage());
     }
 
     @Override

@@ -22,13 +22,13 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         this.userDetailsService = userDetailsService;
     }
 
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) {
-        String token = prepareJwt(authResult);
-        response.addHeader(HttpHeaders.AUTHORIZATION, token);
-    }
+//    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) {
+//        String token = prepareJwt(authResult);
+//        response.addHeader(HttpHeaders.AUTHORIZATION, token);
+//    }
 
-    private String prepareJwt(Authentication authResult) {
-        return jwtService.generateToken(userDetailsService.loadUserByUsername(authResult.getName()));
-    }
+//    private String prepareJwt(Authentication authResult) {
+//        return jwtService.generateToken(userDetailsService.loadUserByUsername(authResult.getName()));
+//    }
 
 }

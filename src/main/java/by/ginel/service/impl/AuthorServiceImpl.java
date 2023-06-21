@@ -4,6 +4,7 @@ import by.ginel.dao.AuthorDao;
 import by.ginel.dto.AuthorDto;
 import by.ginel.mapper.AuthorMapper;
 import by.ginel.service.AuthorService;
+import by.ginel.util.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +19,16 @@ public class AuthorServiceImpl implements AuthorService {
     private final AuthorDao authorDao;
 
     @Override
+    public List<AuthorDto> getAll(Pageable pageable) {
+        return authorDao.getAll(pageable)
+                        .stream()
+                        .map(authorMapper::mapToAuthorDto)
+                        .toList();
+    }
+
+    @Override
     public List<AuthorDto> getAll() {
-        return authorDao.getAll().stream().map(authorMapper::mapToAuthorDto).toList();
+        return getAll(Pageable.maxPage());
     }
 
     @Override

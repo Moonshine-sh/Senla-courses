@@ -11,6 +11,6 @@ import java.sql.Timestamp;
 @SuperBuilder
 public class VerificationTokenDto extends AbstractDto{
     private String token;
-//    private Long personId;
+    private Long personId;
     private Timestamp expiryDate;
 }

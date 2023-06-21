@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -13,6 +15,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Properties;
 
 
@@ -20,6 +24,7 @@ import java.util.Properties;
 @PropertySource("classpath:application.properties")
 @EnableTransactionManagement
 @RequiredArgsConstructor
+@EnableJpaRepositories(basePackages = "by.ginel.dao")
 @ComponentScan("by.ginel.dao")
 public class DatabaseConfig {
     private final Environment env;
@@ -35,7 +40,7 @@ public class DatabaseConfig {
     @Value("${db.password}")
     private String password;
 
-    @Profile("!test")
+    //@Profile("!test")
     @Bean
     public SpringLiquibase liquibase(DataSource dataSource) {
         SpringLiquibase liquibase = new SpringLiquibase();
@@ -54,6 +59,16 @@ public class DatabaseConfig {
         dataSource.setPassword(password);
 
         return dataSource;
+    }
+
+    @Bean
+    public Connection connection(DataSource dataSource) throws SQLException {
+        return dataSource.getConnection();
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
     }
 
     @Bean
@@ -78,7 +93,6 @@ public class DatabaseConfig {
         final Properties properties = new Properties();
         properties.put("hibernate.dialect", env.getProperty("hibernate.dialect"));
         properties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
-        properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
         return properties;
     }
 }

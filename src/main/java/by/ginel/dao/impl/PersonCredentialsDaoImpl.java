@@ -11,12 +11,16 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
-@Component
+@Slf4j
+@Repository
 @RequiredArgsConstructor
 public class PersonCredentialsDaoImpl extends AbstractDaoImpl<PersonCredentials> implements PersonCredentialsDao {
 
@@ -26,11 +30,13 @@ public class PersonCredentialsDaoImpl extends AbstractDaoImpl<PersonCredentials>
     }
 
     @Override
-    public PersonCredentials findByUsername(String username){
+    public Optional<PersonCredentials> findByUsername(String username){
+        log.info("Executing method findByLogin()");
+
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<PersonCredentials> cq = cb.createQuery(PersonCredentials.class);
-        Root<PersonCredentials> root = cq.from(PersonCredentials.class);
+        CriteriaQuery<PersonCredentials> cq = cb.createQuery(getEntityClass());
+        Root<PersonCredentials> root = cq.from(getEntityClass());
         cq.select(root).where(cb.equal(root.get(PersonCredentials_.LOGIN), username));
-        return entityManager.createQuery(cq).getSingleResult();
+        return entityManager.createQuery(cq).getResultList().stream().findFirst();
     }
 }

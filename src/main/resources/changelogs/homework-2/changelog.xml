@@ -10,71 +10,213 @@
       logicalFilePath="homework-2">  
     
     <changeSet id="homework-2-role" author="Alexey Ginel">
-        <sqlFile encoding="utf8" path="./sql/role.sql" relativeToChangelogFile="true"/>
+        <createTable tableName="role">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(50)"/>
+        </createTable>
+<!--        <sqlFile encoding="utf8" path="./sql/role.sql" relativeToChangelogFile="true"/>-->
     </changeSet>
 
     <changeSet id="homework-2-person" author="Alexey Ginel">
-        <sqlFile encoding="utf8" path="./sql/person.sql" relativeToChangelogFile="true"/>
+        <createTable tableName="person">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="first_name" type="varchar(50)"/>
+            <column name="last_name" type="varchar(50)"/>
+            <column name="email" type="varchar(50)"/>
+            <column name="mob_num" type="varchar(50)"/>
+            <column name="locked" type="boolean"/>
+            <column name="enabled" type="boolean"/>
+        </createTable>
+<!--        <sqlFile encoding="utf8" path="./sql/person.sql" relativeToChangelogFile="true"/>-->
     </changeSet>
 	
     <changeSet id="homework-2-person-cred" author="Alexey Ginel">
-        <sqlFile encoding="utf8" path="./sql/person_cred.sql" relativeToChangelogFile="true"/>
+        <createTable tableName="person_cred">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="login" type="varchar(50)"/>
+            <column name="person_id" type="bigint">
+                <constraints foreignKeyName="person_cred_person_id_fk" referencedTableName="person"
+                             referencedColumnNames="id"/>
+            </column>
+            <column name="password" type="varchar(50)"/>
+        </createTable>
+<!--        <sqlFile encoding="utf8" path="./sql/person_cred.sql" relativeToChangelogFile="true"/>-->
     </changeSet>
 	
     <changeSet id="homework-2-person-role" author="Alexey Ginel">
-        <sqlFile encoding="utf8" path="./sql/person_role.sql" relativeToChangelogFile="true"/>
+        <createTable tableName="person_role">
+            <column name="person_id" type="bigint">
+                <constraints primaryKey="true" foreignKeyName="person_role_person_id_fk"
+                             referencedTableName="person" referencedColumnNames="id"/>
+            </column>
+            <column name="role_id" type="bigint">
+                <constraints primaryKey="true" foreignKeyName="person_role_role_id_fk"
+                             referencedTableName="role" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+<!--        <sqlFile encoding="utf8" path="./sql/person_role.sql" relativeToChangelogFile="true"/>-->
     </changeSet>
 	
     <changeSet id="homework-2-verification-token" author="Alexey Ginel">
-        <sqlFile encoding="utf8" path="./sql/verification_token.sql" relativeToChangelogFile="true"/>
+        <createTable tableName="verification_token">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="token" type="varchar(50)"/>
+            <column name="person_id" type="bigint">
+                <constraints primaryKey="true" foreignKeyName="verification_token_person_id_fk"
+                             referencedTableName="person" referencedColumnNames="id"/>
+            </column>
+            <column name="expiry_date" type="timestamp"/>
+        </createTable>
+<!--        <sqlFile encoding="utf8" path="./sql/verification_token.sql" relativeToChangelogFile="true"/>-->
     </changeSet>
 	
     <changeSet id="homework-2-status" author="Alexey Ginel">
-        <sqlFile encoding="utf8" path="./sql/status.sql" relativeToChangelogFile="true"/>
+        <createTable tableName="status">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(50)"/>
+        </createTable>
+<!--        <sqlFile encoding="utf8" path="./sql/status.sql" relativeToChangelogFile="true"/>-->
     </changeSet>
 	
     <changeSet id="homework-2-order" author="Alexey Ginel">
-        <sqlFile encoding="utf8" path="./sql/order.sql" relativeToChangelogFile="true"/>
+        <createTable tableName="order">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="date" type="timestamp"/>
+            <column name="status_id" type="bigint">
+                <constraints foreignKeyName="order_status_id_fk"
+                             referencedTableName="status" referencedColumnNames="id"/>
+            </column>
+            <column name="person_id" type="bigint">
+                <constraints foreignKeyName="order_person_id_fk"
+                             referencedTableName="person" referencedColumnNames="id"/>
+            </column>
+            <column name="price" type="int"/>
+        </createTable>
+<!--        <sqlFile encoding="utf8" path="./sql/order.sql" relativeToChangelogFile="true"/>-->
     </changeSet>
 	
     <changeSet id="homework-2-book" author="Alexey Ginel">
-        <sqlFile encoding="utf8" path="./sql/book.sql" relativeToChangelogFile="true"/>
+        <createTable tableName="book">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(50)"/>
+            <column name="description" type="varchar(50)"/>
+            <column name="pic_path" type="varchar(50)"/>
+        </createTable>
+<!--        <sqlFile encoding="utf8" path="./sql/book.sql" relativeToChangelogFile="true"/>-->
     </changeSet>
 	
     <changeSet id="homework-2-book-item" author="Alexey Ginel">
-        <sqlFile encoding="utf8" path="./sql/book_item.sql" relativeToChangelogFile="true"/>
+        <createTable tableName="book_item">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="book_id" type="bigint">
+                <constraints foreignKeyName="book_item_book_id_fk"
+                             referencedTableName="book" referencedColumnNames="id"/>
+            </column>
+            <column name="order_id" type="bigint">
+                <constraints nullable="true" foreignKeyName="book_item_order_id_fk"
+                             referencedTableName="order" referencedColumnNames="id"/>
+            </column>
+            <column name="price" type="real"/>
+        </createTable>
+<!--        <sqlFile encoding="utf8" path="./sql/book_item.sql" relativeToChangelogFile="true"/>-->
     </changeSet>
 	
     <changeSet id="homework-2-author" author="Alexey Ginel">
-        <sqlFile encoding="utf8" path="./sql/author.sql" relativeToChangelogFile="true"/>
+        <createTable tableName="author">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(50)"/>
+        </createTable>
+<!--        <sqlFile encoding="utf8" path="./sql/author.sql" relativeToChangelogFile="true"/>-->
     </changeSet>
 	
     <changeSet id="homework-2-book-author" author="Alexey Ginel">
-        <sqlFile encoding="utf8" path="./sql/book_author.sql" relativeToChangelogFile="true"/>
+        <createTable tableName="book_author">
+            <column name="author_id" type="bigint">
+                <constraints primaryKey="true" foreignKeyName="book_author_author_id_fk"
+                             referencedTableName="author" referencedColumnNames="id"/>
+            </column>
+            <column name="book_id" type="bigint">
+                <constraints primaryKey="true" foreignKeyName="book_author_book_id_fk"
+                             referencedTableName="book" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+<!--        <sqlFile encoding="utf8" path="./sql/book_author.sql" relativeToChangelogFile="true"/>-->
     </changeSet>
 	
     <changeSet id="homework-2-genre" author="Alexey Ginel">
-        <sqlFile encoding="utf8" path="./sql/genre.sql" relativeToChangelogFile="true"/>
+        <createTable tableName="genre">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(50)"/>
+        </createTable>
+<!--        <sqlFile encoding="utf8" path="./sql/genre.sql" relativeToChangelogFile="true"/>-->
     </changeSet>
 	
     <changeSet id="homework-2-book-genre" author="Alexey Ginel">
-        <sqlFile encoding="utf8" path="./sql/book_genre.sql" relativeToChangelogFile="true"/>
+        <createTable tableName="book_genre">
+            <column name="genre_id" type="bigint">
+                <constraints primaryKey="true" foreignKeyName="book_genre_genre_id_fk"
+                             referencedTableName="genre" referencedColumnNames="id"/>
+            </column>
+            <column name="book_id" type="bigint">
+                <constraints primaryKey="true" foreignKeyName="book_genre_book_id_fk"
+                             referencedTableName="book" referencedColumnNames="id"/>
+            </column>
+        </createTable>
+<!--        <sqlFile encoding="utf8" path="./sql/book_genre.sql" relativeToChangelogFile="true"/>-->
     </changeSet>
 	
 	<changeSet id="homework-2-book-item-index" author="Alexey Ginel">
-        <sqlFile encoding="utf8" path="./sql/book_item_index.sql" relativeToChangelogFile="true"/>
+        <createIndex tableName="book_item" indexName="book_item_order_id_idx">
+            <column name="order_id"/>
+        </createIndex>
+        <createIndex tableName="book_item" indexName="book_item_book_id_idx">
+            <column name="book_id"/>
+        </createIndex>
+<!--        <sqlFile encoding="utf8" path="./sql/book_item_index.sql" relativeToChangelogFile="true"/>-->
     </changeSet>
 	
 	<changeSet id="homework-2-order-index" author="Alexey Ginel">
-        <sqlFile encoding="utf8" path="./sql/order_index.sql" relativeToChangelogFile="true"/>
+        <createIndex tableName="order" indexName="order_person_id_idx">
+            <column name="person_id"/>
+        </createIndex>
+        <createIndex tableName="order" indexName="order_status_id_idx">
+            <column name="status_id"/>
+        </createIndex>
+<!--        <sqlFile encoding="utf8" path="./sql/order_index.sql" relativeToChangelogFile="true"/>-->
     </changeSet>
 	
 	<changeSet id="homework-2-person-cred-index" author="Alexey Ginel">
-        <sqlFile encoding="utf8" path="./sql/person_cred_index.sql" relativeToChangelogFile="true"/>
+        <createIndex tableName="person_cred" indexName="person_cred_person_id_idx">
+            <column name="person_id"/>
+        </createIndex>
+<!--        <sqlFile encoding="utf8" path="./sql/person_cred_index.sql" relativeToChangelogFile="true"/>-->
     </changeSet>
 	
 	<changeSet id="homework-2-verification-token-index" author="Alexey Ginel">
-        <sqlFile encoding="utf8" path="./sql/verification_token_index.sql" relativeToChangelogFile="true"/>
+        <createIndex tableName="verification_token" indexName="verification_token_person_id_idx">
+            <column name="person_id"/>
+        </createIndex>
+<!--        <sqlFile encoding="utf8" path="./sql/verification_token_index.sql" relativeToChangelogFile="true"/>-->
     </changeSet>
 
 </databaseChangeLog>

@@ -14,5 +14,5 @@ public class OrderDto extends AbstractDto{
     private Timestamp date;
     private Long personId;
     private BigDecimal price;
-    private Long statusId;
+    private String status;
 }

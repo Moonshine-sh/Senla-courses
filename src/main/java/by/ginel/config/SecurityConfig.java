@@ -28,8 +28,8 @@ public class SecurityConfig {
     private JwtAuthenticationFilter jwtAuthenticationFilter;
     @Autowired
     private UserDetailsService userDetailsService;
-    @Autowired
-    private LoginFilter loginFilter;
+//    @Autowired
+//    private LoginFilter loginFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -52,16 +52,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .httpBasic().disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/auth/**").anonymous()
-                .anyRequest().authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .addFilter(loginFilter)
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+            .httpBasic().disable()
+            .authorizeHttpRequests()
+            .requestMatchers("/login", "/register").anonymous()
+            .requestMatchers("/actuator/**",
+                    "/swagger-ui.html", "/v3/api-docs/**",
+                    "/swagger-ui/**").permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            //.addFilter(loginFilter)
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

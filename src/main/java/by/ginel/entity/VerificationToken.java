@@ -11,7 +11,6 @@ import java.sql.Timestamp;
 @Setter
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "verification_token")
 public class VerificationToken extends AbstractEntity {

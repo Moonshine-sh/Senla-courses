@@ -11,8 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.sql.SQLException;
 
 @Mapper(componentModel = "spring")
-public interface PersonCredentialsMapper {
-    PersonCredentials mapToPersonCredentials(PersonCredentialsDto personCredentialsDto);
+public abstract class PersonCredentialsMapper {
+    @Autowired
+    protected PersonDao personDao;
 
-    PersonCredentialsDto mapToPersonCredentialsDto(PersonCredentials personCredentials);
+    @Mapping(target = "person", expression = "java(personDao.getById(personCredentialsDto.getPersonId()))")
+    public abstract PersonCredentials mapToPersonCredentials(PersonCredentialsDto personCredentialsDto);
+
+    @Mapping(target = "personId", expression = "java(personCredentials.getPerson().getId())")
+    public abstract PersonCredentialsDto mapToPersonCredentialsDto(PersonCredentials personCredentials);
 }

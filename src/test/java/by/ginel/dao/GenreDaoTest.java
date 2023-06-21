@@ -3,6 +3,7 @@ package by.ginel.dao;
 import by.ginel.config.AppConfig;
 import by.ginel.config.DatabaseConfig;
 import by.ginel.entity.Genre;
+import by.ginel.util.Pageable;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,7 +59,7 @@ public class GenreDaoTest {
 
         genreDao.delete(saved.getId());
 
-        Assert.assertEquals(0, genreDao.getAll().size());
+        Assert.assertEquals(0, genreDao.getAll(Pageable.maxPage()).size());
     }
 
     @Test
@@ -77,7 +78,7 @@ public class GenreDaoTest {
         genreDao.save(genre2);
         genreDao.save(genre3);
 
-        Assert.assertEquals(3, genreDao.getAll().size());
+        Assert.assertEquals(3, genreDao.getAll(Pageable.maxPage()).size());
     }
 
     @Test

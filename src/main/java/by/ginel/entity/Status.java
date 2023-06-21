@@ -10,7 +10,6 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "status")
 public class Status extends AbstractEntity{

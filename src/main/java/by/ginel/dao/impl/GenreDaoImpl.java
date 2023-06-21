@@ -7,9 +7,12 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
+@Slf4j
+@Repository
 @RequiredArgsConstructor
 public class GenreDaoImpl extends AbstractDaoImpl<Genre> implements GenreDao {
 
@@ -20,9 +23,11 @@ public class GenreDaoImpl extends AbstractDaoImpl<Genre> implements GenreDao {
 
     @Override
     public Genre findByName(String name){
+        log.info("Executing method findByName()");
+
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
-        CriteriaQuery<Genre> cq = cb.createQuery(Genre.class);
-        Root<Genre> root = cq.from(Genre.class);
+        CriteriaQuery<Genre> cq = cb.createQuery(getEntityClass());
+        Root<Genre> root = cq.from(getEntityClass());
         cq.select(root).where(cb.equal(root.get(Genre_.NAME), name));
         return entityManager.createQuery(cq).getSingleResult();
     }

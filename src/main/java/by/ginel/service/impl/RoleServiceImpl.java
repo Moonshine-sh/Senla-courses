@@ -4,6 +4,7 @@ import by.ginel.dao.RoleDao;
 import by.ginel.dto.RoleDto;
 import by.ginel.mapper.RoleMapper;
 import by.ginel.service.RoleService;
+import by.ginel.util.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +19,13 @@ public class RoleServiceImpl implements RoleService {
     private final RoleDao roleDao;
 
     @Override
+    public List<RoleDto> getAll(Pageable pageable) {
+        return roleDao.getAll(pageable).stream().map(roleMapper::mapToRoleDto).toList();
+    }
+
+    @Override
     public List<RoleDto> getAll() {
-        return roleDao.getAll().stream().map(roleMapper::mapToRoleDto).toList();
+        return getAll(Pageable.maxPage());
     }
 
     @Override

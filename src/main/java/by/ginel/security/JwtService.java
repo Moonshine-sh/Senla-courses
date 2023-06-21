@@ -1,5 +1,6 @@
 package by.ginel.security;
 
+import by.ginel.entity.MyUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -16,16 +17,16 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    @Value("jwt.secretkey")
+    @Value("jwt.secret.key")
     private static String SECRET_KEY;
 
     public String extractUsername(String jwt) {
         return extractClaim(jwt, Claims::getSubject);
     }
 
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(MyUser myUser) {
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
+                .setSubject(myUser.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(1)))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)

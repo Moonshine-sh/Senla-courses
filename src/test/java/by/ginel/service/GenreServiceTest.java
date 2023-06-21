@@ -9,6 +9,7 @@ import by.ginel.entity.Genre;
 import by.ginel.mapper.GenreMapper;
 import by.ginel.mapper.GenreMapperImpl;
 import by.ginel.service.impl.GenreServiceImpl;
+import by.ginel.util.Pageable;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -65,10 +66,10 @@ public class GenreServiceTest {
 
         List<Genre> genreList = List.of(genre1, genre2, genre3);
 
-        Mockito.when(genreDao.getAll()).thenReturn(genreList);
+        Mockito.when(genreDao.getAll(Pageable.maxPage())).thenReturn(genreList);
 
         Assert.assertEquals(genreService.getAll().size(), genreList.size());
-        Mockito.verify(genreDao, Mockito.times(1)).getAll();
+        Mockito.verify(genreDao, Mockito.times(1)).getAll(Pageable.maxPage());
     }
 
     @Test

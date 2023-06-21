@@ -11,9 +11,9 @@ import java.util.List;
 @Setter
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "person")
+@NamedEntityGraph(name = "person.credentials", attributeNodes = @NamedAttributeNode("credentials"))
 public class Person extends AbstractEntity {
     @Column(name = "first_name")
     private String firstName;

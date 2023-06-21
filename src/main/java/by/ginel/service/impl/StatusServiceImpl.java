@@ -4,6 +4,7 @@ import by.ginel.dao.StatusDao;
 import by.ginel.dto.StatusDto;
 import by.ginel.mapper.StatusMapper;
 import by.ginel.service.StatusService;
+import by.ginel.util.Pageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,8 +19,13 @@ public class StatusServiceImpl implements StatusService {
     private final StatusDao statusDao;
 
     @Override
+    public List<StatusDto> getAll(Pageable pageable) {
+        return statusDao.getAll(pageable).stream().map(statusMapper::mapToStatusDto).toList();
+    }
+
+    @Override
     public List<StatusDto> getAll() {
-        return statusDao.getAll().stream().map(statusMapper::mapToStatusDto).toList();
+        return getAll(Pageable.maxPage());
     }
 
     @Override

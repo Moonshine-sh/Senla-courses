@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Getter
 @SuperBuilder
 public class BookItemDto extends AbstractDto{
-//    private Long bookId;
-//    private Long orderId;
+    private Long bookId;
+    private Long orderId;
     private BigDecimal price;
 }

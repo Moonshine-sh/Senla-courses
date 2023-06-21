@@ -12,7 +12,6 @@ import java.util.Set;
 @Setter
 @SuperBuilder
 @EqualsAndHashCode(callSuper = true)
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "book")
 public class Book extends AbstractEntity{
@@ -22,12 +21,12 @@ public class Book extends AbstractEntity{
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "book_genre", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "genre_id"))
-    private Set<Genre> genres;
+    private List<Genre> genres;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
-    private Set<Author> authors;
+    private List<Author> authors;
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY)
-    private Set<BookItem> bookItems;
+    private List<BookItem> bookItems;
 }
