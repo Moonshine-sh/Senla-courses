@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
@@ -23,5 +24,13 @@ public class GlobalControllerAdvice {
         String message = ex.getMessage();
         log.error(message, ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
+    public ResponseEntity<Object> catchAccessDeniedException(Exception ex) {
+        String message = ex.getMessage();
+        log.error(message, ex);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
     }
 }
